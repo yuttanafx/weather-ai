@@ -216,6 +216,39 @@ body.out main{display:none}
 </div></div></aside>
 </div>
 <script>
+/* ===== form i18n (TH/EN/中文): stored values stay Thai, only displayed text is translated ===== */
+window.UL=(function(){try{var l=localStorage.getItem("wr.lang");return l==="en"||l==="zh"?l:"th"}catch(e){return"th"}})();
+var DI={};
+(function(s){s.split("\n").forEach(function(l){var a=l.split("|");if(a.length===3)DI[a[0].trim()]={en:a[1].trim(),zh:a[2].trim()}})})(
+"ทวีป|Continent|大洲\nประเทศ|Country|国家\nชื่อประเทศ|Country name|国家名称\nภาค|Region|地区\nจังหวัด|Province|府\nภาค / รัฐ|Region / state|地区 / 州\nจังหวัด / เมือง|Province / city|府 / 城市\n"+
+"จดวันนี้|Log today|记录今天\nวันที่|Date|日期\nน้ำฝน (มม.)|Rainfall (mm)|降雨量（毫米）\nสูงสุด (°C)|High (°C)|最高温（°C）\nต่ำสุด (°C)|Low (°C)|最低温（°C）\nความชื้น (%)|Humidity (%)|湿度（%）\nอุณหภูมิผิวดิน (°C)|Soil surface temp (°C)|地表温度（°C）\nความชื้นดิน (%)|Soil moisture (%)|土壤湿度（%）\n"+
+"เกษตรและสิ่งมีชีวิต|Agriculture & livestock|农业与生物\n(ไม่บังคับ)|(optional)|（选填）\nชนิดพืช/สัตว์|Crop / animal|作物 / 动物\nพื้นที่ (ไร่)|Area (rai)|面积（莱）\nน้ำเสริม/ชลประทาน (มม.)|Extra water / irrigation (mm)|补充水 / 灌溉（毫米）\nผลที่สังเกตได้|Observed effect|观察到的影响\n"+
+"บันทึก|Save|保存\nเติมข้อมูลตัวอย่าง 90 วัน|Fill 90 days of sample data|填入90天示例数据\nเล่าเป็นประโยค ให้ AI แยกให้|Describe it in a sentence and let AI fill in the fields|用一句话描述，由AI自动拆分\nให้ AI แยกข้อมูล|Let AI extract the data|让AI提取数据\n"+
+"เมื่อวานที่เชียงใหม่ ฝน 12 มม. ร้อน 33 เย็น 24|Yesterday in Chiang Mai: rain 12 mm, high 33, low 24|昨天在清迈：降雨12毫米，最高33，最低24\n"+
+"ไม่ระบุ|Not specified|未指定\nอื่นๆ (พิมพ์เอง)|Other (type it)|其他（手动输入）\nทุกทวีป|All continents|所有大洲\nทุกประเทศ|All countries|所有国家\nทุกภาค|All regions|所有地区\nทุกจังหวัด|All provinces|所有府\n"+
+"เอเชีย|Asia|亚洲\nยุโรป|Europe|欧洲\nอเมริกาเหนือ|North America|北美洲\nอเมริกาใต้|South America|南美洲\nแอฟริกา|Africa|非洲\nโอเชียเนีย|Oceania|大洋洲\nแอนตาร์กติกา|Antarctica|南极洲\n"+
+"ไทย|Thailand|泰国\nลาว|Laos|老挝\nกัมพูชา|Cambodia|柬埔寨\nเวียดนาม|Vietnam|越南\nเมียนมา|Myanmar|缅甸\nมาเลเซีย|Malaysia|马来西亚\nสิงคโปร์|Singapore|新加坡\nอินโดนีเซีย|Indonesia|印度尼西亚\nฟิลิปปินส์|Philippines|菲律宾\nญี่ปุ่น|Japan|日本\nจีน|China|中国\nอินเดีย|India|印度\nเกาหลีใต้|South Korea|韩国\n"+
+"สหราชอาณาจักร|United Kingdom|英国\nฝรั่งเศส|France|法国\nเยอรมนี|Germany|德国\nอิตาลี|Italy|意大利\nสเปน|Spain|西班牙\nสหรัฐอเมริกา|United States|美国\nแคนาดา|Canada|加拿大\nเม็กซิโก|Mexico|墨西哥\nบราซิล|Brazil|巴西\nอาร์เจนตินา|Argentina|阿根廷\nชิลี|Chile|智利\n"+
+"อียิปต์|Egypt|埃及\nแอฟริกาใต้|South Africa|南非\nเคนยา|Kenya|肯尼亚\nไนจีเรีย|Nigeria|尼日利亚\nออสเตรเลีย|Australia|澳大利亚\nนิวซีแลนด์|New Zealand|新西兰\n"+
+"เหนือ|North|北部\nตะวันออกเฉียงเหนือ|Northeast|东北部\nกลาง|Central|中部\nตะวันตก|West|西部\nตะวันออก|East|东部\nใต้|South|南部\n"+
+"เชียงใหม่|Chiang Mai|清迈\nเชียงราย|Chiang Rai|清莱\nลำปาง|Lampang|南邦\nลำพูน|Lamphun|南奔\nแม่ฮ่องสอน|Mae Hong Son|夜丰颂\nน่าน|Nan|难府\nพะเยา|Phayao|帕尧\nแพร่|Phrae|帕府\nอุตรดิตถ์|Uttaradit|程逸\n"+
+"กาฬสินธุ์|Kalasin|加拉信\nขอนแก่น|Khon Kaen|孔敬\nชัยภูมิ|Chaiyaphum|猜也奔\nนครพนม|Nakhon Phanom|那空帕侬\nนครราชสีมา|Nakhon Ratchasima|呵叻\nบึงกาฬ|Bueng Kan|汶干\nบุรีรัมย์|Buriram|武里南\nมหาสารคาม|Maha Sarakham|玛哈沙拉堪\nมุกดาหาร|Mukdahan|穆达汉\nยโสธร|Yasothon|耶梭通\nร้อยเอ็ด|Roi Et|黎逸\nเลย|Loei|黎府\nสกลนคร|Sakon Nakhon|沙功那空\nสุรินทร์|Surin|素林\nศรีสะเกษ|Sisaket|四色菊\nหนองคาย|Nong Khai|廊开\nหนองบัวลำภู|Nong Bua Lamphu|廊莫那浦\nอุดรธานี|Udon Thani|乌隆\nอุบลราชธานี|Ubon Ratchathani|乌汶\nอำนาจเจริญ|Amnat Charoen|安纳乍能\n"+
+"กรุงเทพมหานคร|Bangkok|曼谷\nกำแพงเพชร|Kamphaeng Phet|甘烹碧\nชัยนาท|Chai Nat|猜纳\nนครนายก|Nakhon Nayok|那空那育\nนครปฐม|Nakhon Pathom|佛统\nนครสวรรค์|Nakhon Sawan|北榄坡\nนนทบุรี|Nonthaburi|暖武里\nปทุมธานี|Pathum Thani|巴吞他尼\nพระนครศรีอยุธยา|Phra Nakhon Si Ayutthaya|大城\nพิจิตร|Phichit|披集\nพิษณุโลก|Phitsanulok|彭世洛\nเพชรบูรณ์|Phetchabun|碧差汶\nลพบุรี|Lopburi|华富里\nสมุทรปราการ|Samut Prakan|北揽\nสมุทรสงคราม|Samut Songkhram|夜功\nสมุทรสาคร|Samut Sakhon|龙仔厝\nสิงห์บุรี|Sing Buri|信武里\nสุโขทัย|Sukhothai|素可泰\nสุพรรณบุรี|Suphan Buri|素攀武里\nสระบุรี|Saraburi|北标\nอ่างทอง|Ang Thong|红统\nอุทัยธานี|Uthai Thani|乌泰他尼\n"+
+"กาญจนบุรี|Kanchanaburi|北碧\nตาก|Tak|达府\nประจวบคีรีขันธ์|Prachuap Khiri Khan|巴蜀\nเพชรบุรี|Phetchaburi|佛丕\nราชบุรี|Ratchaburi|叻丕\n"+
+"จันทบุรี|Chanthaburi|尖竹汶\nฉะเชิงเทรา|Chachoengsao|北柳\nชลบุรี|Chonburi|春武里\nปราจีนบุรี|Prachinburi|巴真武里\nระยอง|Rayong|罗勇\nสระแก้ว|Sa Kaeo|沙缴\nตราด|Trat|达叻\n"+
+"กระบี่|Krabi|甲米\nชุมพร|Chumphon|春蓬\nตรัง|Trang|董里\nนครศรีธรรมราช|Nakhon Si Thammarat|洛坤\nนราธิวาส|Narathiwat|陶公\nปัตตานี|Pattani|北大年\nพังงา|Phang Nga|攀牙\nพัทลุง|Phatthalung|博他仑\nภูเก็ต|Phuket|普吉\nระนอง|Ranong|拉廊\nสตูล|Satun|沙敦\nสงขลา|Songkhla|宋卡\nสุราษฎร์ธานี|Surat Thani|素叻他尼\nยะลา|Yala|惹拉\n"+
+"ข้าว|Rice|水稻\nข้าวโพด|Corn|玉米\nมันสำปะหลัง|Cassava|木薯\nยางพารา|Rubber|橡胶\nทุเรียน|Durian|榴莲\nลำไย|Longan|龙眼\nผักและผลไม้ทั่วไป|Vegetables & fruit|蔬菜水果\nโคเนื้อ/โคนม|Beef / dairy cattle|肉牛 / 奶牛\nไก่เนื้อ|Broiler chickens|肉鸡\nปลานิล (บ่อ)|Tilapia (pond)|罗非鱼（池塘）\n"+
+"ปกติดี|Normal|正常\nเครียดจากความร้อน|Heat stress|热应激\nเครียดจากความหนาว|Cold stress|冷应激\nขาดน้ำ/แล้ง|Water shortage / drought|缺水 / 干旱\nน้ำท่วม/น้ำขัง|Flooding / waterlogging|洪涝 / 积水\nโรค/แมลงระบาด|Disease / pest outbreak|病虫害\n"+
+"เลือกหรือพิมพ์ชื่อประเทศก่อน|Please choose or type a country first|请先选择或输入国家名称\nกรอกวันที่และอุณหภูมิสูงสุด/ต่ำสุดด้วยนะ|Please enter the date and the high / low temperatures|请填写日期以及最高 / 最低温度\nบันทึกไม่สำเร็จ (อาจไม่มีสิทธิ์เขียน)|Couldn't save (you may not have write permission)|保存失败（可能没有写入权限）\nเลือกประเทศก่อน|Please choose a country first|请先选择国家\nเขียนข้อมูลไม่ได้|Couldn't write the data|无法写入数据\n"+
+"กำลังแยกข้อมูล…|Extracting data…|正在提取数据…\nแยกให้แล้ว ตรวจในฟอร์มด้านล่างแล้วกดบันทึก|Done. Check the form below, then press Save|已提取，请检查下方表单后点击保存\nไม่พบ|Not found|未找到\nยังไม่ได้อนุญาตให้ใช้ AI|AI use hasn't been allowed yet|尚未获准使用AI\nใช้ถี่เกินไป รอสักครู่แล้วลองใหม่|Too many requests. Wait a moment and try again|请求过于频繁，请稍后再试\nAI ตอบไม่สำเร็จ ลองใหม่อีกครั้ง|AI couldn't respond. Please try again|AI未能响应，请重试");
+function T(s){var d=DI[s];return d&&d[UL]||s}
+function trForm(){var root=document.querySelector("section.form");if(!root)return;
+  var w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,null),n,L=[];
+  while(n=w.nextNode()){var p=n.parentNode;if(p.tagName==="OPTION"||p.tagName==="SCRIPT"||p.id==="qm"||!n.nodeValue.trim())continue;L.push(n)}
+  L.forEach(function(n){if(n.__o==null)n.__o=n.nodeValue.trim();var m=n.nodeValue.match(/^(\s*)[\s\S]*?(\s*)$/);n.nodeValue=m[1]+T(n.__o)+m[2]});
+  [].forEach.call(root.querySelectorAll("[placeholder]"),function(e){if(e.__o==null)e.__o=e.getAttribute("placeholder");e.setAttribute("placeholder",T(e.__o))});
+  [].forEach.call(root.querySelectorAll("option"),function(o){o.textContent=T(o.value===""?"ไม่ระบุ":o.value)})}
+window.onUL=function(){trForm();buildScope()};
 var M=["ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."];
 var OT="อื่นๆ (พิมพ์เอง)",LV=["c","n","g","p"],LN=["ทวีป","ประเทศ","ภาค","จังหวัด"];
 var CT={"เอเชีย":["ไทย","ลาว","กัมพูชา","เวียดนาม","เมียนมา","มาเลเซีย","สิงคโปร์","อินโดนีเซีย","ฟิลิปปินส์","ญี่ปุ่น","จีน","อินเดีย","เกาหลีใต้"],
@@ -272,7 +305,7 @@ async function init(){
   startApp(u);
 }
 /* form location */
-function opt(l,sel){return l.map(function(v){return'<option'+(v===sel?" selected":"")+'>'+esc(v)+'</option>'}).join("")}
+function opt(l,sel){return l.map(function(v){return'<option value="'+esc(v)+'"'+(v===sel?" selected":"")+'>'+esc(T(v))+'</option>'}).join("")}
 function buildLoc(){
   var th=F.n==="ไทย",h='<div><label for="fc">ทวีป</label><select id="fc">'+opt(Object.keys(CT),F.c)+'</select></div>'+
   '<div><label for="fn">ประเทศ</label><select id="fn">'+opt((CT[F.c]||[]).concat([OT]),F.n)+'</select></div>';
@@ -281,6 +314,7 @@ function buildLoc(){
   else h+='<div><label for="fg">ภาค / รัฐ</label><input id="fg" value="'+esc(F.g||"")+'"></div><div><label for="fp">จังหวัด / เมือง</label><input id="fp" value="'+esc(F.p||"")+'"></div>';
   $("loc").innerHTML=h;
 }
+var _bl=buildLoc;buildLoc=function(){_bl();trForm()};
 function setThai(){F.g="เหนือ";F.p=TH["เหนือ"][0]}
 $("loc").onchange=function(ev){var id=ev.target.id,v=ev.target.value;
   if(id==="fc"){F.c=v;F.n=(CT[v][0]||OT);F.g="";F.p="";if(F.n==="ไทย")setThai();buildLoc()}
@@ -288,7 +322,8 @@ $("loc").onchange=function(ev){var id=ev.target.id,v=ev.target.value;
   else if(id==="fnx")F.nx=v;
   else if(id==="fg"){F.g=v;if(F.n==="ไทย"){F.p=TH[v][0];buildLoc()}}
   else if(id==="fp")F.p=v};
-function buildAg(){$("agf").innerHTML='<div><label for="cp">ชนิดพืช/สัตว์</label><select id="cp"><option value="">ไม่ระบุ</option>'+opt(Object.keys(CR),F.cp)+'</select></div><div><label for="ag">พื้นที่ (ไร่)</label><input type="number" id="ag" min="0" step="0.1" value="'+(F.ag||"")+'"></div><div><label for="ir">น้ำเสริม/ชลประทาน (มม.)</label><input type="number" id="ir" min="0" step="0.1" placeholder="0"></div><div><label for="ef">ผลที่สังเกตได้</label><select id="ef">'+EF.map(function(v){return'<option value="'+v+'">'+(v||"ไม่ระบุ")+'</option>'}).join("")+'</select></div>'}
+function buildAg(){$("agf").innerHTML='<div><label for="cp">ชนิดพืช/สัตว์</label><select id="cp"><option value="">ไม่ระบุ</option>'+opt(Object.keys(CR),F.cp)+'</select></div><div><label for="ag">พื้นที่ (ไร่)</label><input type="number" id="ag" min="0" step="0.1" value="'+(F.ag||"")+'"></div><div><label for="ir">น้ำเสริม/ชลประทาน (มม.)</label><input type="number" id="ir" min="0" step="0.1" placeholder="0"></div><div><label for="ef">ผลที่สังเกตได้</label><select id="ef">'+EF.map(function(v){return'<option value="'+v+'">'+T(v||"ไม่ระบุ")+'</option>'}).join("")+'</select></div>'}
+var _ba=buildAg;buildAg=function(){_ba();trForm()};
 function xtra(){return{gt:$("gt").value===""?null:parseFloat($("gt").value),gm:$("gm").value===""?null:parseFloat($("gm").value),hu:$("hu").value===""?null:parseFloat($("hu").value),cp:$("cp").value,ag:parseFloat($("ag").value)||0,ir:parseFloat($("ir").value)||0,ef:$("ef").value}}
 /* aggregation: rain = mean per place when several places are in view */
 function agg(L){var pk={},P=0,o={tot:0,rd:0,n:L.length,sh:0,sl:0,mx:-99,mn:99,hs:0,hn:0,mo:[]};
@@ -304,7 +339,7 @@ function lst(k,base){var f=[],d=uniq(base,k),all=function(o){return[].concat.app
   d.forEach(function(v){if(f.indexOf(v)<0)f.push(v)});return f}
 function buildScope(){var h="",base=rows,reset=false;
   LV.forEach(function(k,i){var os=lst(k,base);if(reset||(S[k]&&os.indexOf(S[k])<0)){S[k]="";reset=true}
-    h+='<select data-k="'+k+'" aria-label="'+LN[i]+'"><option value="">ทุก'+LN[i]+'</option>'+opt(os,S[k])+'</select>';
+    h+='<select data-k="'+k+'" aria-label="'+LN[i]+'"><option value="">'+T("ทุก"+LN[i])+'</option>'+opt(os,S[k])+'</select>';
     if(S[k])base=base.filter(function(e){return e[k]===S[k]})});
   $("scope").innerHTML=h}
 $("scope").onchange=function(ev){var k=ev.target.getAttribute("data-k");if(!k)return;S[k]=ev.target.value;
@@ -361,26 +396,26 @@ function place(){var n=F.n===OT?($("fnx")?$("fnx").value.trim():""):F.n;return{c
 function mk(d,r,hi,lo,pl,x){x=x||{};var e={d:d,r:r,hi:hi,lo:lo,c:pl.c,n:pl.n,g:pl.g,p:pl.p,hu:x.hu==null||isNaN(x.hu)?null:x.hu,gt:x.gt==null||isNaN(x.gt)?null:x.gt,gm:x.gm==null||isNaN(x.gm)?null:x.gm,cp:x.cp||"",ag:x.ag||0,ir:x.ir||0,ef:x.ef||""};e.id=d+"_"+hash(pkey(e));return e}
 $("add").onclick=function(){
   var d=$("d").value,r=parseFloat($("r").value)||0,hi=parseFloat($("hi").value),lo=parseFloat($("lo").value),pl=place();
-  if(!pl.n){alert("เลือกหรือพิมพ์ชื่อประเทศก่อน");return}
-  if(!d||isNaN(hi)||isNaN(lo)){alert("กรอกวันที่และอุณหภูมิสูงสุด/ต่ำสุดด้วยนะ");return}
+  if(!pl.n){alert(T("เลือกหรือพิมพ์ชื่อประเทศก่อน"));return}
+  if(!d||isNaN(hi)||isNaN(lo)){alert(T("กรอกวันที่และอุณหภูมิสูงสุด/ต่ำสุดด้วยนะ"));return}
   var xx=xtra();F.cp=xx.cp;F.ag=xx.ag;try{localStorage.setItem("weatherlog.loc",JSON.stringify(F))}catch(e){}
   year=+d.slice(0,4);
-  put(mk(d,r,hi,lo,pl,xx)).then(function(){["r","hi","lo","hu","gt","gm","ir","ef"].forEach(function(k){$(k).value=""})},function(){alert("บันทึกไม่สำเร็จ (อาจไม่มีสิทธิ์เขียน)")});
+  put(mk(d,r,hi,lo,pl,xx)).then(function(){["r","hi","lo","hu","gt","gm","ir","ef"].forEach(function(k){$(k).value=""})},function(){alert(T("บันทึกไม่สำเร็จ (อาจไม่มีสิทธิ์เขียน)"))});
 };
 $("demo").onclick=async function(){
-  var t=new Date(),pl=place();if(!pl.n){alert("เลือกประเทศก่อน");return}this.disabled=true;
+  var t=new Date(),pl=place();if(!pl.n){alert(T("เลือกประเทศก่อน"));return}this.disabled=true;
   for(var i=89;i>=0;i--){var x=new Date(t);x.setDate(t.getDate()-i);
     var wet=Math.random()<0.4,hi=30+Math.random()*6,lo=hi-5-Math.random()*3;
-    try{await put(mk(iso(x),wet?Math.round(Math.random()*400)/10:0,Math.round(hi*10)/10,Math.round(lo*10)/10,pl,Object.assign(xtra(),{hu:Math.round(wet?75+Math.random()*20:50+Math.random()*25),gt:Math.round((wet?hi-1+Math.random()*3:hi+3+Math.random()*7)*10)/10,gm:Math.round(wet?55+Math.random()*30:20+Math.random()*25)})))}catch(e){alert("เขียนข้อมูลไม่ได้");break}}
+    try{await put(mk(iso(x),wet?Math.round(Math.random()*400)/10:0,Math.round(hi*10)/10,Math.round(lo*10)/10,pl,Object.assign(xtra(),{hu:Math.round(wet?75+Math.random()*20:50+Math.random()*25),gt:Math.round((wet?hi-1+Math.random()*3:hi+3+Math.random()*7)*10)/10,gm:Math.round(wet?55+Math.random()*30:20+Math.random()*25)})))}catch(e){alert(T("เขียนข้อมูลไม่ได้"));break}}
   this.disabled=false;
 };
 var AI=null;
 AI=function(p){return api("/api/ai",{method:"POST",body:JSON.stringify({prompt:p,provider:curProv()})}).then(function(j){return{text:j.text}})};
 AI.json=function(p){return AI(p+"\n\nตอบเป็น JSON อย่างเดียว ห้ามมีข้อความอื่นหรือ code fence").then(function(r){var t=r.text,i=t.indexOf("{"),j=t.lastIndexOf("}");return JSON.parse(t.slice(i,j+1))})};
 $("aiq").style.display="";$("aiall").style.display="";
-function aiErr(e){return e&&e.code==="not_granted"?"ยังไม่ได้อนุญาตให้ใช้ AI":e&&e.code==="rate_limited"?"ใช้ถี่เกินไป รอสักครู่แล้วลองใหม่":"AI ตอบไม่สำเร็จ ลองใหม่อีกครั้ง"}
+function aiErr(e){return e&&e.code==="not_granted"?T("ยังไม่ได้อนุญาตให้ใช้ AI"):e&&e.code==="rate_limited"?T("ใช้ถี่เกินไป รอสักครู่แล้วลองใหม่"):T("AI ตอบไม่สำเร็จ ลองใหม่อีกครั้ง")}
 $("qb").onclick=async function(){
-  var t=$("qt").value.trim();if(!t||!AI)return;var b=this;b.disabled=true;$("qm").textContent="กำลังแยกข้อมูล…";
+  var t=$("qt").value.trim();if(!t||!AI)return;var b=this;b.disabled=true;$("qm").textContent=T("กำลังแยกข้อมูล…");
   var q='วันนี้คือ '+iso(new Date())+'. แยกข้อความต่อไปนี้เป็น JSON เท่านั้น: {"d":"YYYY-MM-DD","r":ฝนมม. (ไม่มีให้ 0),"hi":อุณหภูมิสูงสุด°C,"lo":อุณหภูมิต่ำสุด°C,"c":ทวีป,"n":ประเทศ,"g":ภาคหรือรัฐ,"p":จังหวัดหรือเมือง,"cp":ชนิดพืชหรือสัตว์,"ag":พื้นที่เกษตรเป็นไร่,"ir":น้ำเสริมมม.,"ef":ผลที่สังเกตได้,"hu":ความชื้นสัมพัทธ์เป็นเปอร์เซ็นต์,"gt":อุณหภูมิผิวดิน°C,"gm":ความชื้นดินเป็นเปอร์เซ็นต์}. ทวีปเลือกจาก: '+Object.keys(CT).join(", ")+'. ชื่อประเทศ ภาค จังหวัด เขียนเป็นภาษาไทย. ถ้าเป็นไทย ภาคเลือกจาก: '+Object.keys(TH).join(", ")+' และสะกดจังหวัดตามชื่อทางการ. ชนิดพืชหรือสัตว์เลือกจาก: '+Object.keys(CR).join(", ")+'. ผลที่สังเกตได้เลือกจาก: '+EF.slice(1).join(", ")+'. ข้อมูลที่ไม่มีใช้ null. ข้อความ: '+t;
   try{
     var o=await AI.json(q),k,miss=[];
@@ -397,7 +432,7 @@ $("qb").onclick=async function(){
     if(o.hi!=null)$("hi").value=o.hi;else miss.push("อุณหภูมิสูงสุด");
     if(o.lo!=null)$("lo").value=o.lo;else miss.push("อุณหภูมิต่ำสุด");
     if(o.cp&&CR[o.cp])$("cp").value=o.cp;if(o.ag>0)$("ag").value=o.ag;if(o.ir>0)$("ir").value=o.ir;if(o.ef&&EF.indexOf(o.ef)>=0)$("ef").value=o.ef;if(o.hu>0&&o.hu<=100)$("hu").value=o.hu;if(o.gt!=null)$("gt").value=o.gt;if(o.gm>0&&o.gm<=100)$("gm").value=o.gm;
-    $("qm").textContent="แยกให้แล้ว ตรวจในฟอร์มด้านล่างแล้วกดบันทึก"+(miss.length?" (ไม่พบ: "+miss.join(", ")+")":"");
+    $("qm").textContent=T("แยกให้แล้ว ตรวจในฟอร์มด้านล่างแล้วกดบันทึก")+(miss.length?" ("+T("ไม่พบ")+": "+miss.join(", ")+")":"");
   }catch(e){$("qm").textContent=aiErr(e)}
   b.disabled=false;
 };
@@ -592,7 +627,7 @@ zh:{loc:"zh-CN",h:"在线天气报告",ph:"搜索城市，例如 清迈",go:"搜
  feels:"体感温度",hum:"湿度",wind:"风速",pres:"气压",cloud:"云量",rain:"当前降水",d7:"未来7天预报",today:"今天",upd:"更新于",src:"数据来源：Open-Meteo",kmh:"公里/小时",mm:"毫米",
  wc:{0:"晴朗",1:"大部晴朗",2:"局部多云",3:"阴天",45:"雾",48:"雾凇",51:"小毛毛雨",53:"毛毛雨",55:"大毛毛雨",56:"冻毛毛雨",57:"强冻毛毛雨",61:"小雨",63:"中雨",65:"大雨",66:"冻雨",67:"强冻雨",71:"小雪",73:"中雪",75:"大雪",77:"雪粒",80:"小阵雨",81:"阵雨",82:"强阵雨",85:"小阵雪",86:"强阵雪",95:"雷暴",96:"雷暴伴冰雹",99:"雷暴伴强冰雹"}}};
 var DEF={id:1609350,lat:13.7563,lon:100.5018,names:{th:"กรุงเทพมหานคร, ไทย",en:"Bangkok, Thailand",zh:"曼谷，泰国"}};
-var lang="th",loc=DEF,data=null,at=null,seq=0,timer=0;
+var lang=window.UL||"th",loc=DEF,data=null,at=null,seq=0,timer=0;
 try{var sl=localStorage.getItem("wr.lang");if(L[sl])lang=sl;var sp=JSON.parse(localStorage.getItem("wr.loc")||"null");if(sp&&isFinite(sp.lat)&&isFinite(sp.lon)&&sp.names)loc=sp}catch(e){}
 function g(i){return document.getElementById(i)}
 function X(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
@@ -634,9 +669,9 @@ g("wr-f").addEventListener("submit",function(e){e.preventDefault();var q=g("wr-q
 g("wr-gps").addEventListener("click",function(){if(!navigator.geolocation){paint(L[lang].geo,true);return}
   navigator.geolocation.getCurrentPosition(function(p){var n={};["th","en","zh"].forEach(function(k){n[k]=L[k].me});loc={id:0,lat:+p.coords.latitude.toFixed(4),lon:+p.coords.longitude.toFixed(4),names:n};save();data=null;load()},function(){paint(L[lang].geo,true)},{timeout:10000})});
 g("wr-lang").addEventListener("click",function(e){var b=e.target.closest("button");if(!b||!L[b.dataset.l])return;lang=b.dataset.l;try{localStorage.setItem("wr.lang",lang)}catch(x){}
-  g("wrres").style.display="none";statics();if(data)paint();names()});
+  window.UL=lang;g("wrres").style.display="none";statics();if(data)paint();names();if(window.onUL)window.onUL()});
 g("wr-tg").addEventListener("click",function(){var w=g("wr"),s=w.classList.toggle("shut");this.setAttribute("aria-expanded",!s);this.textContent=s?"▸":"▾"});
-statics();load();names();timer=setInterval(load,600000);
+statics();if(window.onUL)window.onUL();load();names();timer=setInterval(load,600000);
 document.addEventListener("visibilitychange",function(){if(!document.hidden&&at&&Date.now()-at>600000)load()});
 })();
 </script>
