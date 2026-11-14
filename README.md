@@ -10,9 +10,14 @@
    |---|---|
    | `SESSION_SECRET` | สตริงสุ่มยาวอย่างน้อย 16 ตัว (ใช้เซ็นคุกกี้ล็อกอิน) |
    | `SIGNUP_CODE` | รหัสเชิญที่คุณตั้งเอง แจกให้สมาชิกใช้ตอนสมัคร |
-   | `ANTHROPIC_API_KEY` | คีย์จาก console.anthropic.com |
+   | `ANTHROPIC_API_KEY` | คีย์ Claude จาก console.anthropic.com |
+   | `OPENAI_API_KEY` | คีย์ GPT จาก platform.openai.com |
+   | `GEMINI_API_KEY` | คีย์ Gemini จาก aistudio.google.com |
+   | `AI_PROVIDER` | (ไม่บังคับ) ตัวเริ่มต้น: `anthropic`, `openai` หรือ `gemini` |
+   | `*_MODEL` | (ไม่บังคับ) `ANTHROPIC_MODEL` `OPENAI_MODEL` `GEMINI_MODEL` ตั้งชื่อโมเดลเอง |
    | `CRON_SECRET` | สุ่มสตริงยาวๆ (Vercel ส่งให้ cron อัตโนมัติ) |
    | `ANTHROPIC_MODEL` | (ไม่บังคับ) ค่าเริ่มต้น `claude-sonnet-5-5` |
+ใส่คีย์ AI อย่างน้อย 1 ตัว ใส่หลายตัวแล้วหน้าเว็บจะมีตัวเลือกสลับในกล่อง "AI วิเคราะห์ภาพรวม"
 4. Deploy แล้วเปิดเว็บ กด "สมัครสมาชิก" — **บัญชีแรกจะเป็นแอดมินและไม่ต้องใช้รหัสเชิญ** บัญชีถัดไปต้องกรอก `SIGNUP_CODE`
 
 ## ล็อกอินสมาชิก

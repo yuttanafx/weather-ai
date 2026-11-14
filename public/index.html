@@ -112,7 +112,8 @@ body.out main{display:none}
 </div>
 </section>
 
-<section class="sec" id="aiall" style="display:none"><h2>AI วิเคราะห์ภาพรวม</h2><p class="hint">AI อ่านผลคำนวณทั้งหมดที่แสดงอยู่ในหน้านี้ตามพื้นที่และปีที่เลือก แล้วสรุปเป็นรายงานเดียว</p><p class="hint" id="aisrc"></p><button id="aib" style="margin:4px 0 10px">ให้ AI วิเคราะห์ทั้งหมด</button><div id="aio" class="aio"></div></section>
+<section class="sec" id="aiall" style="display:none"><h2>AI วิเคราะห์ภาพรวม</h2><p class="hint">AI อ่านผลคำนวณทั้งหมดที่แสดงอยู่ในหน้านี้ตามพื้นที่และปีที่เลือก แล้วสรุปเป็นรายงานเดียว</p><div id="aipw" style="display:none;margin:2px 0 10px"><label for="aip">ใช้ AI ของ</label><select id="aip"></select></div>
+<p class="hint" id="aisrc"></p><button id="aib" style="margin:4px 0 10px">ให้ AI วิเคราะห์ทั้งหมด</button><div id="aio" class="aio"></div></section>
 <section class="sec">
 <h2>เดือนต่อเดือน</h2><p class="hint">แท่งคือฝนรวม แถบสีส้มคือช่วงอุณหภูมิเฉลี่ยของเดือน</p>
 <svg id="chart" viewBox="0 0 340 190" role="img" aria-label="กราฟรายเดือน"></svg>
@@ -202,7 +203,7 @@ async function api(path,o){o=o||{};
   if(!r.ok)throw{code:r.status===429?"rate_limited":"http",status:r.status,message:j.error};return j}
 function showGate(){clearInterval(poll);document.body.classList.add("out");$("gate").style.display="flex"}
 async function startApp(u){document.body.classList.remove("out");$("gate").style.display="none";$("who").textContent="👤 "+u;
-  lastSig="";await loadLogs();loadTracks();clearInterval(poll);poll=setInterval(loadLogs,60000)}
+  lastSig="";loadProv();await loadLogs();loadTracks();clearInterval(poll);poll=setInterval(loadLogs,60000)}
 async function loadLogs(){try{var j=await api("/api/logs"),sig=JSON.stringify(j.rows);
   $("st").textContent="● เชื่อมฐานข้อมูลแล้ว";if(sig!==lastSig){lastSig=sig;rows=j.rows;render()}}
   catch(e){$("st").textContent=e.code==="auth"?"ต้องใช้รหัสผ่าน":"เชื่อมฐานข้อมูลไม่ได้"}}
@@ -316,7 +317,7 @@ $("demo").onclick=async function(){
   this.disabled=false;
 };
 var AI=null;
-AI=function(p){return api("/api/ai",{method:"POST",body:JSON.stringify({prompt:p})}).then(function(j){return{text:j.text}})};
+AI=function(p){return api("/api/ai",{method:"POST",body:JSON.stringify({prompt:p,provider:curProv()})}).then(function(j){return{text:j.text}})};
 AI.json=function(p){return AI(p+"\n\nตอบเป็น JSON อย่างเดียว ห้ามมีข้อความอื่นหรือ code fence").then(function(r){var t=r.text,i=t.indexOf("{"),j=t.lastIndexOf("}");return JSON.parse(t.slice(i,j+1))})};
 $("aiq").style.display="";$("aiall").style.display="";
 function aiErr(e){return e&&e.code==="not_granted"?"ยังไม่ได้อนุญาตให้ใช้ AI":e&&e.code==="rate_limited"?"ใช้ถี่เกินไป รอสักครู่แล้วลองใหม่":"AI ตอบไม่สำเร็จ ลองใหม่อีกครั้ง"}
@@ -493,6 +494,14 @@ $("tl").onclick=async function(ev){var p=ev.target.getAttribute("data-pull"),r=e
   try{if(p){ev.target.disabled=true;await api("/api/cron?id="+p);await loadLogs();loadTracks()}
     else if(r&&confirm("ลบการติดตามนี้?")){await api("/api/tracks?id="+r,{method:"DELETE"});loadTracks()}}
   catch(e){alert("ทำไม่สำเร็จ")}};
+var PL={anthropic:"Claude",openai:"GPT (OpenAI)",gemini:"Gemini"};
+function curProv(){var s=$("aip");return s&&s.value||undefined}
+async function loadProv(){try{var j=await api("/api/ai"),sv="";try{sv=localStorage.getItem("weatherlog.prov")||""}catch(e){}
+  var pick=j.providers.indexOf(sv)>=0?sv:j.default;
+  $("aip").innerHTML=j.providers.map(function(k){return'<option value="'+k+'"'+(k===pick?" selected":"")+'>'+PL[k]+'</option>'}).join("");
+  $("aipw").style.display=j.providers.length>1?"":"none";
+  var on=j.providers.length?"":"none";$("aiq").style.display=on;$("aiall").style.display=on}catch(e){}}
+$("aip").onchange=function(){try{localStorage.setItem("weatherlog.prov",this.value)}catch(e){}};
 var gmode="login";
 function gateMode(m){gmode=m;var L=m==="login";$("gtt").textContent=L?"เข้าสู่ระบบ · สมาชิกเท่านั้นจึงเปิดดูและบันทึกข้อมูลได้":"สมัครสมาชิก";$("gcw").style.display=L?"none":"";
   $("gsub").textContent=L?"เข้าสู่ระบบ":"สมัครสมาชิก";$("gsw").textContent=L?"ยังไม่มีบัญชี? สมัครสมาชิก":"มีบัญชีแล้ว? เข้าสู่ระบบ";$("gerr").textContent="";$("gp").autocomplete=L?"current-password":"new-password"}
