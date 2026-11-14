@@ -87,6 +87,48 @@ body.out main{display:none}
 #gate{background:rgba(6,12,20,.45);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 .gcard{position:relative}
 .gx{position:absolute;top:8px;right:10px;width:auto;margin:0;padding:2px 10px;background:none;color:var(--mu);font-size:18px;font-weight:300}
+/* ===== Online weather report side column ===== */
+.layout{display:flex;gap:14px;align-items:flex-start;justify-content:center;max-width:960px;margin:0 auto;padding:0 14px}
+.layout main{flex:1 1 560px;min-width:0;max-width:560px;margin:0;padding-left:0;padding-right:0}
+#wr{flex:0 0 340px;width:340px;position:sticky;top:14px;margin-top:14px;max-height:calc(100vh - 28px);overflow:auto;scrollbar-width:thin}
+.wr-card{background:var(--pa);border:1px solid var(--ln);border-radius:22px;padding:14px 16px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.wr-top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}
+.wr-top h2{margin:0;font-size:15px}
+.wr-lang{display:flex;gap:2px;background:var(--bg);border:1px solid var(--ln);border-radius:99px;padding:2px}
+.wr-lang{flex:none}.wr-top h2{min-width:0}.wr-lang button{white-space:nowrap;width:auto;margin:0;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:400;background:transparent;color:var(--mu)}
+.wr-lang button.on{background:var(--rain);color:#fff}
+.wr-s{display:flex;gap:6px;position:relative}
+.wr-s input{font-size:14px;padding:8px 10px;border-radius:10px}
+.wr-s button{width:auto;margin:0;padding:8px 10px;border-radius:10px;font-size:13px}
+.wr-s .wr-gps{background:transparent;color:var(--tx);border:1px solid var(--ln)}
+#wrres{margin:6px 0 0;display:none;border:1px solid var(--ln);border-radius:12px;overflow:hidden;background:var(--bg)}
+#wrres button{display:block;width:100%;margin:0;border-radius:0;background:transparent;color:var(--tx);text-align:left;font-weight:300;font-size:13px;padding:8px 10px;border-bottom:1px solid var(--ln)}
+#wrres button:last-child{border-bottom:0}
+#wrres .wr-none{padding:8px 10px;font-size:13px;color:var(--mu)}
+.wr-place{font-size:13px;color:var(--mu);margin:12px 0 2px}
+.wr-now{display:flex;align-items:center;gap:12px}
+.wr-ic{font-size:46px;line-height:1}
+.wr-t{font-size:42px;font-weight:600;line-height:1;letter-spacing:-.02em}
+.wr-t small{font-size:16px;font-weight:300;color:var(--mu);margin-left:2px}
+.wr-desc{font-size:14px;margin-top:2px}
+.wr-kv{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;margin:12px 0;font-size:12px;color:var(--mu)}
+.wr-kv b{display:block;font-size:14px;font-weight:500;color:var(--tx)}
+.wr-days{border-top:1px solid var(--ln);padding-top:8px}
+.wr-days h3{font-size:13px;font-weight:500;margin:0 0 4px}
+.wr-d{display:grid;grid-template-columns:44px 24px 1fr auto;gap:6px;align-items:center;padding:5px 0;font-size:13px;border-bottom:1px solid var(--ln)}
+.wr-d:last-child{border-bottom:0}
+.wr-d .p{color:var(--rain);font-size:12px}
+.wr-d .hl b{font-weight:500}.wr-d .hl span{color:var(--mu)}
+.wr-foot{font-size:11px;color:var(--mu);margin-top:8px}
+.wr-err{color:var(--hot);font-size:13px}
+.wr-tg{display:none;width:auto;margin:0;padding:2px 10px;background:transparent;color:var(--mu);font-size:12px;font-weight:400;border:1px solid var(--ln)}
+@media (max-width:940px){
+ .layout{flex-direction:column;align-items:stretch;gap:0;padding:0}
+ .layout main{max-width:560px;width:100%;margin:0 auto;padding:14px 14px 40px;flex:none}
+ #wr{order:-1;flex:none;width:100%;max-width:560px;margin:14px auto 0;padding:0 14px;position:static;max-height:none;overflow:visible}
+ .wr-tg{display:inline-block}
+ #wr.shut .wr-body{display:none}
+}
 </style>
 </head>
 <body>
@@ -98,6 +140,7 @@ body.out main{display:none}
 <p id="gerr" class="gerr" role="alert"></p>
 <button id="gsub" type="submit">เข้าสู่ระบบ</button>
 <button type="button" class="ghost" id="gsw">ยังไม่มีบัญชี? สมัครสมาชิก</button></form></div>
+<div class="layout">
 <main>
 <div class="bar"><span class="who" id="who"></span><button class="lg" id="lg">เข้าสู่ระบบ</button></div>
 <section class="hero">
@@ -164,6 +207,14 @@ body.out main{display:none}
 <div id="tl" style="margin-top:10px"></div></section>
 <section class="sec" style="margin-top:22px"><h2>สมุดจดล่าสุด</h2><div id="list"></div></section>
 </main>
+<aside id="wr" aria-label="Weather report"><div class="wr-card">
+<div class="wr-top"><h2 id="wr-h"></h2><div style="display:flex;gap:6px;align-items:center"><div class="wr-lang" id="wr-lang" role="group"><button type="button" data-l="th">ไทย</button><button type="button" data-l="en">EN</button><button type="button" data-l="zh">中文</button></div><button type="button" class="wr-tg" id="wr-tg" aria-expanded="true">▾</button></div></div>
+<div class="wr-body">
+<form class="wr-s" id="wr-f"><input id="wr-q" autocomplete="off" maxlength="60"><button type="submit" id="wr-go"></button><button type="button" class="wr-gps" id="wr-gps">📍</button></form>
+<div id="wrres"></div>
+<div id="wr-out"></div>
+</div></div></aside>
+</div>
 <script>
 var M=["ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."];
 var OT="อื่นๆ (พิมพ์เอง)",LV=["c","n","g","p"],LN=["ทวีป","ประเทศ","ภาค","จังหวัด"];
@@ -528,6 +579,66 @@ document.addEventListener("keydown",function(ev){if(ev.key==="Escape")closeGate(
 document.addEventListener("focusin",function(ev){if(USER)return;var t=ev.target;if(t.closest&&t.closest(".form,#trk,#aiq")){t.blur();openGate()}});
 $("d").value=iso(new Date());
 init();
+/* ===== Online weather report (Open-Meteo, no key) · TH / EN / 中文 ===== */
+(function(){
+var L={
+th:{loc:"th-TH",h:"รายงานอากาศออนไลน์",ph:"ค้นหาเมือง เช่น เชียงใหม่",go:"ค้นหา",gps:"ตำแหน่งของฉัน",none:"ไม่พบสถานที่",load:"กำลังโหลด…",err:"โหลดรายงานอากาศไม่ได้ ลองใหม่อีกครั้ง",geo:"เบราว์เซอร์ไม่อนุญาตตำแหน่ง",me:"ตำแหน่งของฉัน",
+ feels:"รู้สึกเหมือน",hum:"ความชื้น",wind:"ลม",pres:"ความกด",cloud:"เมฆปกคลุม",rain:"ฝนตอนนี้",d7:"พยากรณ์ 7 วัน",today:"วันนี้",upd:"อัปเดต",src:"ข้อมูล: Open-Meteo",kmh:"กม./ชม.",mm:"มม.",
+ wc:{0:"ท้องฟ้าแจ่มใส",1:"แจ่มใสเป็นส่วนใหญ่",2:"มีเมฆบางส่วน",3:"มีเมฆมาก",45:"หมอก",48:"หมอกน้ำค้างแข็ง",51:"ฝนปรอยเล็กน้อย",53:"ฝนปรอย",55:"ฝนปรอยหนัก",56:"ฝนปรอยเยือกแข็ง",57:"ฝนปรอยเยือกแข็งหนัก",61:"ฝนเล็กน้อย",63:"ฝนปานกลาง",65:"ฝนหนัก",66:"ฝนเยือกแข็ง",67:"ฝนเยือกแข็งหนัก",71:"หิมะเล็กน้อย",73:"หิมะปานกลาง",75:"หิมะหนัก",77:"เกล็ดหิมะ",80:"ฝนซู่เล็กน้อย",81:"ฝนซู่",82:"ฝนซู่รุนแรง",85:"หิมะโปรยเล็กน้อย",86:"หิมะโปรยหนัก",95:"พายุฝนฟ้าคะนอง",96:"พายุฝนฟ้าคะนอง มีลูกเห็บ",99:"พายุฝนฟ้าคะนอง ลูกเห็บหนัก"}},
+en:{loc:"en-US",h:"Live weather report",ph:"Search a city, e.g. Chiang Mai",go:"Search",gps:"My location",none:"No places found",load:"Loading…",err:"Couldn't load the weather report. Please try again.",geo:"Location permission denied",me:"My location",
+ feels:"Feels like",hum:"Humidity",wind:"Wind",pres:"Pressure",cloud:"Cloud cover",rain:"Rain now",d7:"7-day forecast",today:"Today",upd:"Updated",src:"Data: Open-Meteo",kmh:"km/h",mm:"mm",
+ wc:{0:"Clear sky",1:"Mostly clear",2:"Partly cloudy",3:"Overcast",45:"Fog",48:"Rime fog",51:"Light drizzle",53:"Drizzle",55:"Heavy drizzle",56:"Freezing drizzle",57:"Heavy freezing drizzle",61:"Light rain",63:"Moderate rain",65:"Heavy rain",66:"Freezing rain",67:"Heavy freezing rain",71:"Light snow",73:"Moderate snow",75:"Heavy snow",77:"Snow grains",80:"Light showers",81:"Showers",82:"Violent showers",85:"Light snow showers",86:"Heavy snow showers",95:"Thunderstorm",96:"Thunderstorm with hail",99:"Thunderstorm with heavy hail"}},
+zh:{loc:"zh-CN",h:"在线天气报告",ph:"搜索城市，例如 清迈",go:"搜索",gps:"我的位置",none:"未找到地点",load:"加载中…",err:"无法加载天气报告，请重试。",geo:"未获得定位权限",me:"我的位置",
+ feels:"体感温度",hum:"湿度",wind:"风速",pres:"气压",cloud:"云量",rain:"当前降水",d7:"未来7天预报",today:"今天",upd:"更新于",src:"数据来源：Open-Meteo",kmh:"公里/小时",mm:"毫米",
+ wc:{0:"晴朗",1:"大部晴朗",2:"局部多云",3:"阴天",45:"雾",48:"雾凇",51:"小毛毛雨",53:"毛毛雨",55:"大毛毛雨",56:"冻毛毛雨",57:"强冻毛毛雨",61:"小雨",63:"中雨",65:"大雨",66:"冻雨",67:"强冻雨",71:"小雪",73:"中雪",75:"大雪",77:"雪粒",80:"小阵雨",81:"阵雨",82:"强阵雨",85:"小阵雪",86:"强阵雪",95:"雷暴",96:"雷暴伴冰雹",99:"雷暴伴强冰雹"}}};
+var DEF={id:1609350,lat:13.7563,lon:100.5018,names:{th:"กรุงเทพมหานคร, ไทย",en:"Bangkok, Thailand",zh:"曼谷，泰国"}};
+var lang="th",loc=DEF,data=null,at=null,seq=0,timer=0;
+try{var sl=localStorage.getItem("wr.lang");if(L[sl])lang=sl;var sp=JSON.parse(localStorage.getItem("wr.loc")||"null");if(sp&&isFinite(sp.lat)&&isFinite(sp.lon)&&sp.names)loc=sp}catch(e){}
+function g(i){return document.getElementById(i)}
+function X(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+function ic(c,day){if(c===0)return day===0?"🌙":"☀️";if(c===1)return day===0?"🌙":"🌤️";if(c===2)return"⛅";if(c===3)return"☁️";if(c===45||c===48)return"🌫️";if(c>=51&&c<=57)return"🌦️";if(c>=61&&c<=67)return"🌧️";if(c>=71&&c<=77||c===85||c===86)return"❄️";if(c>=80&&c<=82)return"🌦️";if(c>=95)return"⛈️";return"🌡️"}
+function wd(c){var w=L[lang].wc;return w[c]||w[Math.floor(c/10)*10]||"—"}
+function nm(){return loc.names[lang]||loc.names.en||loc.names.th||""}
+function label(p){return[p.name,p.admin1,p.country].filter(function(v,i,a){return v&&a.indexOf(v)===i}).join(", ")}
+function statics(){var t=L[lang];document.documentElement.lang=lang==="zh"?"zh-CN":lang;
+  g("wr-h").textContent="🌤️ "+t.h;g("wr-q").placeholder=t.ph;g("wr-q").setAttribute("aria-label",t.ph);g("wr-go").textContent=t.go;g("wr-gps").title=t.gps;g("wr-gps").setAttribute("aria-label",t.gps);
+  [].forEach.call(document.querySelectorAll("#wr-lang button"),function(b){b.classList.toggle("on",b.dataset.l===lang)})}
+function paint(msg,isErr){var o=g("wr-out"),t=L[lang];
+  if(msg){o.innerHTML='<p class="'+(isErr?"wr-err":"hint")+'" role="status" style="margin-top:12px">'+X(msg)+'</p>';return}
+  if(!data)return;var c=data.current,d=data.daily,U=data.current_units||{};
+  var h='<div class="wr-place">📍 '+X(nm())+'</div><div class="wr-now"><div class="wr-ic" aria-hidden="true">'+ic(c.weather_code,c.is_day)+'</div><div><div class="wr-t">'+Math.round(c.temperature_2m)+'<small>°C</small></div><div class="wr-desc">'+X(wd(c.weather_code))+'</div></div></div>'
+  +'<div class="wr-kv"><div>'+t.feels+'<b>'+Math.round(c.apparent_temperature)+'°C</b></div><div>'+t.hum+'<b>'+Math.round(c.relative_humidity_2m)+'%</b></div><div>'+t.wind+'<b>'+Math.round(c.wind_speed_10m)+' '+t.kmh+'</b></div><div>'+t.pres+'<b>'+Math.round(c.pressure_msl)+' hPa</b></div><div>'+t.cloud+'<b>'+Math.round(c.cloud_cover)+'%</b></div><div>'+t.rain+'<b>'+(+c.precipitation).toFixed(1)+' '+t.mm+'</b></div></div>'
+  +'<div class="wr-days"><h3>'+t.d7+'</h3>';
+  var f=new Intl.DateTimeFormat(t.loc,{weekday:"short"});
+  for(var i=0;i<d.time.length;i++){var day=i===0?t.today:f.format(new Date(d.time[i]+"T12:00:00"));
+    h+='<div class="wr-d"><span>'+X(day)+'</span><span aria-hidden="true">'+ic(d.weather_code[i],1)+'</span><span class="p" title="'+X(wd(d.weather_code[i]))+'">💧'+Math.round(d.precipitation_probability_max[i]||0)+'%</span><span class="hl"><b>'+Math.round(d.temperature_2m_max[i])+'°</b> <span>'+Math.round(d.temperature_2m_min[i])+'°</span></span></div>'}
+  h+='</div><div class="wr-foot">'+t.upd+' '+X(new Intl.DateTimeFormat(t.loc,{hour:"2-digit",minute:"2-digit"}).format(at))+' · '+t.src+'</div>';
+  o.innerHTML=h}
+async function load(){var my=++seq;paint(L[lang].load);
+  try{var u="https://api.open-meteo.com/v1/forecast?latitude="+loc.lat+"&longitude="+loc.lon+"&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,cloud_cover,pressure_msl,wind_speed_10m,is_day&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=auto&forecast_days=7";
+    var r=await fetch(u);if(!r.ok)throw 0;var j=await r.json();if(my!==seq)return;
+    if(!j.current||!j.daily)throw 0;data=j;at=new Date();paint()}
+  catch(e){if(my!==seq)return;if(data)paint();else paint(L[lang].err,true)}}
+async function names(){ // fill the place name in the current language
+  if(loc.names[lang]||!loc.id)return;
+  try{var r=await fetch("https://geocoding-api.open-meteo.com/v1/get?id="+loc.id+"&language="+(lang==="zh"?"zh":lang));var p=await r.json();
+    if(p&&p.name){loc.names[lang]=label(p);save();if(data)paint()}}catch(e){}}
+function save(){try{localStorage.setItem("wr.loc",JSON.stringify(loc))}catch(e){}}
+function pick(p){loc={id:p.id||0,lat:p.latitude,lon:p.longitude,names:{}};loc.names[lang]=label(p);save();g("wrres").style.display="none";g("wr-q").value="";data=null;load();names()}
+async function search(q){var box=g("wrres"),t=L[lang];box.style.display="block";box.innerHTML='<div class="wr-none">'+t.load+'</div>';
+  try{var r=await fetch("https://geocoding-api.open-meteo.com/v1/search?name="+encodeURIComponent(q)+"&count=6&format=json&language="+lang);var j=await r.json(),R=j.results||[];
+    if(!R.length){box.innerHTML='<div class="wr-none">'+t.none+'</div>';return}
+    box.innerHTML="";R.forEach(function(p){var b=document.createElement("button");b.type="button";b.textContent=label(p);b.onclick=function(){pick(p)};box.appendChild(b)})}
+  catch(e){box.innerHTML='<div class="wr-none">'+t.err+'</div>'}}
+g("wr-f").addEventListener("submit",function(e){e.preventDefault();var q=g("wr-q").value.trim();if(q)search(q)});
+g("wr-gps").addEventListener("click",function(){if(!navigator.geolocation){paint(L[lang].geo,true);return}
+  navigator.geolocation.getCurrentPosition(function(p){var n={};["th","en","zh"].forEach(function(k){n[k]=L[k].me});loc={id:0,lat:+p.coords.latitude.toFixed(4),lon:+p.coords.longitude.toFixed(4),names:n};save();data=null;load()},function(){paint(L[lang].geo,true)},{timeout:10000})});
+g("wr-lang").addEventListener("click",function(e){var b=e.target.closest("button");if(!b||!L[b.dataset.l])return;lang=b.dataset.l;try{localStorage.setItem("wr.lang",lang)}catch(x){}
+  g("wrres").style.display="none";statics();if(data)paint();names()});
+g("wr-tg").addEventListener("click",function(){var w=g("wr"),s=w.classList.toggle("shut");this.setAttribute("aria-expanded",!s);this.textContent=s?"▸":"▾"});
+statics();load();names();timer=setInterval(load,600000);
+document.addEventListener("visibilitychange",function(){if(!document.hidden&&at&&Date.now()-at>600000)load()});
+})();
 </script>
 </body>
 </html>
