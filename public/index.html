@@ -220,7 +220,7 @@ body.out main{display:none}
 window.UL=(function(){try{var l=localStorage.getItem("wr.lang");return l==="en"||l==="zh"?l:"th"}catch(e){return"th"}})();
 var DI={};
 (function(s){s.split("\n").forEach(function(l){var a=l.split("|");if(a.length===3)DI[a[0].trim()]={en:a[1].trim(),zh:a[2].trim()}})})(
-"ทวีป|Continent|大洲\nประเทศ|Country|国家\nชื่อประเทศ|Country name|国家名称\nภาค|Region|地区\nจังหวัด|Province|府\nภาค / รัฐ|Region / state|地区 / 州\nจังหวัด / เมือง|Province / city|府 / 城市\n"+
+"เกษตรและสิ่งมีชีวิต|Agriculture & livestock|农业与生物\nน้ำที่ได้รับ = ฝน + น้ำเสริม (1 มม. บน 1 ไร่ ≈ 1.6 ลบ.ม.) และนับวันที่อุณหภูมิเกินเกณฑ์ของแต่ละชนิด|Water received = rain + extra water (1 mm over 1 rai ≈ 1.6 m³), and we count the days when temperature goes beyond each type's threshold|获得的水量 = 降雨 + 补充水（1毫米覆盖1莱 ≈ 1.6立方米），并统计气温超出各品种适宜范围的天数\nผิวดิน|Soil surface|地表\nเทียบอุณหภูมิผิวดินและความชื้นดินกับอุณหภูมิอากาศและฝน ในพื้นที่และปีที่เลือก|Compares soil surface temperature and soil moisture with air temperature and rain, for the selected area and year|在所选地区和年份内，将地表温度和土壤湿度与气温和降雨进行对比\nโอกาสฝนจากอุณหภูมิ|Chance of rain from temperature|由气温推算降雨概率\nดูจากวันในอดีตที่อุณหภูมิใกล้เคียงกัน ในพื้นที่ที่เลือก (ทุกปี) เป็นความถี่ในอดีต ไม่ใช่การพยากรณ์|Based on past days with similar temperatures in the selected area (all years). This is historical frequency, not a forecast|依据所选地区（所有年份）中气温相近的历史日期，属于历史频率，不是天气预报\nความชื้น % (ไม่บังคับ ใช้ช่วง ±10)|Humidity % (optional, ±10 range)|湿度 %（选填，使用±10范围）\nเดือน|Month|月份\nทุกเดือน|All months|所有月份\nใช้ค่ากลาง|Use median values|使用中位数\nยังไม่มีบันทึกที่ระบุชนิดพืช/สัตว์ เลือกในฟอร์มด้านล่างเพื่อดูผลของน้ำและอุณหภูมิ|No records specify a crop or animal yet. Choose one in the form below to see the effects of water and temperature|尚无指定作物/动物的记录，请在下方表单中选择，以查看水量与气温的影响\nพื้นที่เกษตรรวม|Total farm area|农业总面积\nน้ำที่ได้รับ (ต่อแปลง)|Water received (per plot)|获得水量（每块地）\nปริมาตรน้ำรวม|Total water volume|总水量\nมาจากฝน / น้ำเสริม|From rain / extra water|来自降雨 / 补充水\nไร่|rai|莱\nมม.|mm|毫米\nลบ.ม.|m³|立方米\nวัน|days|天\nน้ำ|Water|水量\nเกณฑ์|Threshold|适宜范围\nร้อนเกิน|Too hot|过热\nเย็นเกิน|Too cold|过冷\nผลที่สังเกตได้|Observed effect|观察到的影响\nยังไม่มีบันทึกอุณหภูมิผิวดินหรือความชื้นดิน ใส่ได้ในฟอร์มด้านล่าง|No soil surface temperature or soil moisture records yet. You can enter them in the form below|尚无地表温度或土壤湿度记录，可在下方表单中填写\nผิวดินเฉลี่ย|Avg soil surface temp|平均地表温度\nผิวดินต่างจากอากาศ|Soil vs. air temp|地表与气温之差\nความชื้นดินเฉลี่ย|Avg soil moisture|平均土壤湿度\nผิวดิน ฝนตก / ไม่ตก|Soil temp: rainy / dry days|地表温度：雨天 / 非雨天\nความชื้นดิน ฝนตก / ไม่ตก|Soil moisture: rainy / dry days|土壤湿度：雨天 / 非雨天\nผิวดิน–อุณหภูมิอากาศ (r)|Soil–air temperature (r)|地表–气温（r）\nr ใกล้ 1 = ขึ้นลงไปด้วยกัน ต้องมีอย่างน้อย 8 วัน เป็นความสัมพันธ์ ไม่ใช่เหตุและผล (เช่น ฝนตกทำให้ดินชื้นและเย็นลงในวันเดียวกัน)|r close to 1 = they rise and fall together. Needs at least 8 days. It shows a relationship, not cause and effect (e.g. rain makes soil wetter and cooler on the same day)|r 接近 1 表示两者同升同降。至少需要8天数据。这只是相关性，不是因果关系（例如下雨会使当天土壤变湿、变凉）\nยังไม่มีข้อมูลในพื้นที่/เดือนนี้ให้คำนวณ|No data for this area / month to calculate|该地区 / 月份暂无数据可供计算\nใส่อุณหภูมิสูงสุดและต่ำสุดเพื่อดูโอกาสฝน|Enter the high and low temperatures to see the chance of rain|请输入最高和最低气温以查看降雨概率\nไม่พบวันที่อุณหภูมิใกล้เคียง (±4°C) ลองปรับค่า หรือเลือก \"ทุกเดือน\"|No days with similar temperatures (±4°C). Try adjusting the values or choose \"All months\"|未找到气温相近（±4°C）的日期，请调整数值或选择“所有月份”\nโอกาสมีฝน|Chance of rain|降雨概率\nทั้งช่วง|overall|整体\nฝนเฉลี่ย/วัน|Avg rain / day|日均降雨\nถ้าฝนตก เฉลี่ย|Avg when it rains|下雨时平均\nฝนสูงสุดที่เคยเจอ|Max rain recorded|历史最大降雨\nไม่มีฝน|No rain|无雨\nเล็กน้อย|Light|小雨\nปานกลาง|Moderate|中雨\nหนัก|Heavy|大雨\nหนักมาก|Very heavy|暴雨\nเล็กน้อย &lt;5 · ปานกลาง 5–20 · หนัก 20–50 · หนักมาก 50+ มม./วัน|Light &lt;5 · Moderate 5–20 · Heavy 20–50 · Very heavy 50+ mm/day|小雨 &lt;5 · 中雨 5–20 · 大雨 20–50 · 暴雨 50+ 毫米/天\nจาก|From|基于\nวันที่ใกล้เคียง|similar days|个相近日期\nความชื้น|humidity|湿度\nตัวอย่างน้อยมาก ใช้ประกอบเท่านั้น|Very small sample, for reference only|样本极少，仅供参考\nตัวอย่างค่อนข้างน้อย|Fairly small sample|样本偏少\nตัวอย่างพอใช้|Adequate sample|样本数量尚可\nทวีป|Continent|大洲\nประเทศ|Country|国家\nชื่อประเทศ|Country name|国家名称\nภาค|Region|地区\nจังหวัด|Province|府\nภาค / รัฐ|Region / state|地区 / 州\nจังหวัด / เมือง|Province / city|府 / 城市\n"+
 "จดวันนี้|Log today|记录今天\nวันที่|Date|日期\nน้ำฝน (มม.)|Rainfall (mm)|降雨量（毫米）\nสูงสุด (°C)|High (°C)|最高温（°C）\nต่ำสุด (°C)|Low (°C)|最低温（°C）\nความชื้น (%)|Humidity (%)|湿度（%）\nอุณหภูมิผิวดิน (°C)|Soil surface temp (°C)|地表温度（°C）\nความชื้นดิน (%)|Soil moisture (%)|土壤湿度（%）\n"+
 "เกษตรและสิ่งมีชีวิต|Agriculture & livestock|农业与生物\n(ไม่บังคับ)|(optional)|（选填）\nชนิดพืช/สัตว์|Crop / animal|作物 / 动物\nพื้นที่ (ไร่)|Area (rai)|面积（莱）\nน้ำเสริม/ชลประทาน (มม.)|Extra water / irrigation (mm)|补充水 / 灌溉（毫米）\nผลที่สังเกตได้|Observed effect|观察到的影响\n"+
 "บันทึก|Save|保存\nเติมข้อมูลตัวอย่าง 90 วัน|Fill 90 days of sample data|填入90天示例数据\nเล่าเป็นประโยค ให้ AI แยกให้|Describe it in a sentence and let AI fill in the fields|用一句话描述，由AI自动拆分\nให้ AI แยกข้อมูล|Let AI extract the data|让AI提取数据\n"+
@@ -241,14 +241,16 @@ var DI={};
 "ปกติดี|Normal|正常\nเครียดจากความร้อน|Heat stress|热应激\nเครียดจากความหนาว|Cold stress|冷应激\nขาดน้ำ/แล้ง|Water shortage / drought|缺水 / 干旱\nน้ำท่วม/น้ำขัง|Flooding / waterlogging|洪涝 / 积水\nโรค/แมลงระบาด|Disease / pest outbreak|病虫害\n"+
 "เลือกหรือพิมพ์ชื่อประเทศก่อน|Please choose or type a country first|请先选择或输入国家名称\nกรอกวันที่และอุณหภูมิสูงสุด/ต่ำสุดด้วยนะ|Please enter the date and the high / low temperatures|请填写日期以及最高 / 最低温度\nบันทึกไม่สำเร็จ (อาจไม่มีสิทธิ์เขียน)|Couldn't save (you may not have write permission)|保存失败（可能没有写入权限）\nเลือกประเทศก่อน|Please choose a country first|请先选择国家\nเขียนข้อมูลไม่ได้|Couldn't write the data|无法写入数据\n"+
 "กำลังแยกข้อมูล…|Extracting data…|正在提取数据…\nแยกให้แล้ว ตรวจในฟอร์มด้านล่างแล้วกดบันทึก|Done. Check the form below, then press Save|已提取，请检查下方表单后点击保存\nไม่พบ|Not found|未找到\nยังไม่ได้อนุญาตให้ใช้ AI|AI use hasn't been allowed yet|尚未获准使用AI\nใช้ถี่เกินไป รอสักครู่แล้วลองใหม่|Too many requests. Wait a moment and try again|请求过于频繁，请稍后再试\nAI ตอบไม่สำเร็จ ลองใหม่อีกครั้ง|AI couldn't respond. Please try again|AI未能响应，请重试");
-function T(s){var d=DI[s];return d&&d[UL]||s}
-function trForm(){var root=document.querySelector("section.form");if(!root)return;
+function tx(s){var d=DI[s];return d&&d[UL]||s}
+var MN={en:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],zh:["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"]};
+function trForm(){["section.form","#agw","#soilw","#prw"].forEach(function(sel){var root=document.querySelector(sel);if(!root)return;
   var w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,null),n,L=[];
   while(n=w.nextNode()){var p=n.parentNode;if(p.tagName==="OPTION"||p.tagName==="SCRIPT"||p.id==="qm"||!n.nodeValue.trim())continue;L.push(n)}
-  L.forEach(function(n){if(n.__o==null)n.__o=n.nodeValue.trim();var m=n.nodeValue.match(/^(\s*)[\s\S]*?(\s*)$/);n.nodeValue=m[1]+T(n.__o)+m[2]});
-  [].forEach.call(root.querySelectorAll("[placeholder]"),function(e){if(e.__o==null)e.__o=e.getAttribute("placeholder");e.setAttribute("placeholder",T(e.__o))});
-  [].forEach.call(root.querySelectorAll("option"),function(o){o.textContent=T(o.value===""?"ไม่ระบุ":o.value)})}
-window.onUL=function(){trForm();buildScope()};
+  L.forEach(function(n){if(n.__o==null)n.__o=n.nodeValue.trim();var m=n.nodeValue.match(/^(\s*)[\s\S]*?(\s*)$/);n.nodeValue=m[1]+tx(n.__o)+m[2]});
+  [].forEach.call(root.querySelectorAll("[placeholder]"),function(e){if(e.__o==null)e.__o=e.getAttribute("placeholder");e.setAttribute("placeholder",tx(e.__o))});
+  if(sel==="section.form")[].forEach.call(root.querySelectorAll("option"),function(o){o.textContent=tx(o.value===""?"ไม่ระบุ":o.value)})});
+  var pm=document.getElementById("pm");if(pm)[].forEach.call(pm.options,function(o){o.textContent=o.value===""?tx("ทุกเดือน"):(MN[UL]?MN[UL][+o.value]:M[+o.value])})}
+window.onUL=function(){trForm();try{render()}catch(e){buildScope()}};
 var M=["ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."];
 var OT="อื่นๆ (พิมพ์เอง)",LV=["c","n","g","p"],LN=["ทวีป","ประเทศ","ภาค","จังหวัด"];
 var CT={"เอเชีย":["ไทย","ลาว","กัมพูชา","เวียดนาม","เมียนมา","มาเลเซีย","สิงคโปร์","อินโดนีเซีย","ฟิลิปปินส์","ญี่ปุ่น","จีน","อินเดีย","เกาหลีใต้"],
@@ -305,7 +307,7 @@ async function init(){
   startApp(u);
 }
 /* form location */
-function opt(l,sel){return l.map(function(v){return'<option value="'+esc(v)+'"'+(v===sel?" selected":"")+'>'+esc(T(v))+'</option>'}).join("")}
+function opt(l,sel){return l.map(function(v){return'<option value="'+esc(v)+'"'+(v===sel?" selected":"")+'>'+esc(tx(v))+'</option>'}).join("")}
 function buildLoc(){
   var th=F.n==="ไทย",h='<div><label for="fc">ทวีป</label><select id="fc">'+opt(Object.keys(CT),F.c)+'</select></div>'+
   '<div><label for="fn">ประเทศ</label><select id="fn">'+opt((CT[F.c]||[]).concat([OT]),F.n)+'</select></div>';
@@ -322,7 +324,7 @@ $("loc").onchange=function(ev){var id=ev.target.id,v=ev.target.value;
   else if(id==="fnx")F.nx=v;
   else if(id==="fg"){F.g=v;if(F.n==="ไทย"){F.p=TH[v][0];buildLoc()}}
   else if(id==="fp")F.p=v};
-function buildAg(){$("agf").innerHTML='<div><label for="cp">ชนิดพืช/สัตว์</label><select id="cp"><option value="">ไม่ระบุ</option>'+opt(Object.keys(CR),F.cp)+'</select></div><div><label for="ag">พื้นที่ (ไร่)</label><input type="number" id="ag" min="0" step="0.1" value="'+(F.ag||"")+'"></div><div><label for="ir">น้ำเสริม/ชลประทาน (มม.)</label><input type="number" id="ir" min="0" step="0.1" placeholder="0"></div><div><label for="ef">ผลที่สังเกตได้</label><select id="ef">'+EF.map(function(v){return'<option value="'+v+'">'+T(v||"ไม่ระบุ")+'</option>'}).join("")+'</select></div>'}
+function buildAg(){$("agf").innerHTML='<div><label for="cp">ชนิดพืช/สัตว์</label><select id="cp"><option value="">ไม่ระบุ</option>'+opt(Object.keys(CR),F.cp)+'</select></div><div><label for="ag">พื้นที่ (ไร่)</label><input type="number" id="ag" min="0" step="0.1" value="'+(F.ag||"")+'"></div><div><label for="ir">น้ำเสริม/ชลประทาน (มม.)</label><input type="number" id="ir" min="0" step="0.1" placeholder="0"></div><div><label for="ef">ผลที่สังเกตได้</label><select id="ef">'+EF.map(function(v){return'<option value="'+v+'">'+tx(v||"ไม่ระบุ")+'</option>'}).join("")+'</select></div>'}
 var _ba=buildAg;buildAg=function(){_ba();trForm()};
 function xtra(){return{gt:$("gt").value===""?null:parseFloat($("gt").value),gm:$("gm").value===""?null:parseFloat($("gm").value),hu:$("hu").value===""?null:parseFloat($("hu").value),cp:$("cp").value,ag:parseFloat($("ag").value)||0,ir:parseFloat($("ir").value)||0,ef:$("ef").value}}
 /* aggregation: rain = mean per place when several places are in view */
@@ -339,7 +341,7 @@ function lst(k,base){var f=[],d=uniq(base,k),all=function(o){return[].concat.app
   d.forEach(function(v){if(f.indexOf(v)<0)f.push(v)});return f}
 function buildScope(){var h="",base=rows,reset=false;
   LV.forEach(function(k,i){var os=lst(k,base);if(reset||(S[k]&&os.indexOf(S[k])<0)){S[k]="";reset=true}
-    h+='<select data-k="'+k+'" aria-label="'+LN[i]+'"><option value="">'+T("ทุก"+LN[i])+'</option>'+opt(os,S[k])+'</select>';
+    h+='<select data-k="'+k+'" aria-label="'+LN[i]+'"><option value="">'+tx("ทุก"+LN[i])+'</option>'+opt(os,S[k])+'</select>';
     if(S[k])base=base.filter(function(e){return e[k]===S[k]})});
   $("scope").innerHTML=h}
 $("scope").onchange=function(ev){var k=ev.target.getAttribute("data-k");if(!k)return;S[k]=ev.target.value;
@@ -372,11 +374,11 @@ function render(){
   s+='<text x="0" y="'+(pt+3)+'" font-size="8" fill="var(--mu)">'+Math.round(tmax)+'°</text><text x="0" y="'+(pt+ch)+'" font-size="8" fill="var(--mu)">'+Math.round(tmin)+'°</text>';
   $("chart").innerHTML=s;
   var CY=Y.filter(function(e){return e.cp});
-  if(!CY.length)$("agb").innerHTML='<p class="empty">ยังไม่มีบันทึกที่ระบุชนิดพืช/สัตว์ เลือกในฟอร์มด้านล่างเพื่อดูผลของน้ำและอุณหภูมิ</p>';
+  if(!CY.length)$("agb").innerHTML='<p class="empty">'+tx("ยังไม่มีบันทึกที่ระบุชนิดพืช/สัตว์ เลือกในฟอร์มด้านล่างเพื่อดูผลของน้ำและอุณหภูมิ")+'</p>';
   else{var T=cagg(CY),w=T.rain+T.irr,GC={};CY.forEach(function(e){(GC[e.cp]=GC[e.cp]||[]).push(e)});
-    var efs=Object.keys(T.ef).map(function(k){return k+" "+T.ef[k]+" วัน"}).join(" · ");
-    $("agb").innerHTML='<div class="grid kv">'+kv("พื้นที่เกษตรรวม",fmt(T.area)+" ไร่")+kv("น้ำที่ได้รับ (ต่อแปลง)",Math.round(w)+" มม.")+kv("ปริมาตรน้ำรวม",fmt(T.vol)+" ลบ.ม.")+kv("มาจากฝน / น้ำเสริม",w>0?Math.round(100*T.rain/w)+"% / "+Math.round(100*T.irr/w)+"%":"-")+'</div>'+
-    Object.keys(GC).map(function(k){var c=cagg(GC[k]),t=CR[k]||[10,35];return'<div class="crow"><b>'+esc(k)+'</b><span class="sm">'+fmt(c.area)+' ไร่ · น้ำ '+Math.round(c.rain+c.irr)+' มม. · เกณฑ์ '+t[0]+'–'+t[1]+'°C</span><span><span class="dot" style="background:var(--hot)"></span>ร้อนเกิน '+c.hot+' วัน <span class="dot" style="background:var(--cold);margin-left:8px"></span>เย็นเกิน '+c.cold+' วัน</span></div>'}).join("")+(efs?'<p class="hint" style="margin-top:8px">ผลที่สังเกตได้: '+esc(efs)+'</p>':"")}
+    var efs=Object.keys(T.ef).map(function(k){return tx(k)+" "+T.ef[k]+" "+tx("วัน")}).join(" · ");
+    $("agb").innerHTML='<div class="grid kv">'+kv(tx("พื้นที่เกษตรรวม"),fmt(T.area)+" "+tx("ไร่"))+kv(tx("น้ำที่ได้รับ (ต่อแปลง)"),Math.round(w)+" "+tx("มม."))+kv(tx("ปริมาตรน้ำรวม"),fmt(T.vol)+" "+tx("ลบ.ม."))+kv(tx("มาจากฝน / น้ำเสริม"),w>0?Math.round(100*T.rain/w)+"% / "+Math.round(100*T.irr/w)+"%":"-")+'</div>'+
+    Object.keys(GC).map(function(k){var c=cagg(GC[k]),t=CR[k]||[10,35];return'<div class="crow"><b>'+esc(tx(k))+'</b><span class="sm">'+fmt(c.area)+' '+tx("ไร่")+' · '+tx("น้ำ")+' '+Math.round(c.rain+c.irr)+' '+tx("มม.")+' · '+tx("เกณฑ์")+' '+t[0]+'–'+t[1]+'°C</span><span><span class="dot" style="background:var(--hot)"></span>'+tx("ร้อนเกิน")+' '+c.hot+' '+tx("วัน")+' <span class="dot" style="background:var(--cold);margin-left:8px"></span>'+tx("เย็นเกิน")+' '+c.cold+' '+tx("วัน")+'</span></div>'}).join("")+(efs?'<p class="hint" style="margin-top:8px">'+tx("ผลที่สังเกตได้")+': '+esc(efs)+'</p>':"")}
   /* breakdown by next level */
   var li=0;while(li<4&&S[LV[li]])li++;
   var G={};if(li<4)Y.forEach(function(e){var v=e[LV[li]];if(v)(G[v]=G[v]||[]).push(e)});
@@ -396,26 +398,26 @@ function place(){var n=F.n===OT?($("fnx")?$("fnx").value.trim():""):F.n;return{c
 function mk(d,r,hi,lo,pl,x){x=x||{};var e={d:d,r:r,hi:hi,lo:lo,c:pl.c,n:pl.n,g:pl.g,p:pl.p,hu:x.hu==null||isNaN(x.hu)?null:x.hu,gt:x.gt==null||isNaN(x.gt)?null:x.gt,gm:x.gm==null||isNaN(x.gm)?null:x.gm,cp:x.cp||"",ag:x.ag||0,ir:x.ir||0,ef:x.ef||""};e.id=d+"_"+hash(pkey(e));return e}
 $("add").onclick=function(){
   var d=$("d").value,r=parseFloat($("r").value)||0,hi=parseFloat($("hi").value),lo=parseFloat($("lo").value),pl=place();
-  if(!pl.n){alert(T("เลือกหรือพิมพ์ชื่อประเทศก่อน"));return}
-  if(!d||isNaN(hi)||isNaN(lo)){alert(T("กรอกวันที่และอุณหภูมิสูงสุด/ต่ำสุดด้วยนะ"));return}
+  if(!pl.n){alert(tx("เลือกหรือพิมพ์ชื่อประเทศก่อน"));return}
+  if(!d||isNaN(hi)||isNaN(lo)){alert(tx("กรอกวันที่และอุณหภูมิสูงสุด/ต่ำสุดด้วยนะ"));return}
   var xx=xtra();F.cp=xx.cp;F.ag=xx.ag;try{localStorage.setItem("weatherlog.loc",JSON.stringify(F))}catch(e){}
   year=+d.slice(0,4);
-  put(mk(d,r,hi,lo,pl,xx)).then(function(){["r","hi","lo","hu","gt","gm","ir","ef"].forEach(function(k){$(k).value=""})},function(){alert(T("บันทึกไม่สำเร็จ (อาจไม่มีสิทธิ์เขียน)"))});
+  put(mk(d,r,hi,lo,pl,xx)).then(function(){["r","hi","lo","hu","gt","gm","ir","ef"].forEach(function(k){$(k).value=""})},function(){alert(tx("บันทึกไม่สำเร็จ (อาจไม่มีสิทธิ์เขียน)"))});
 };
 $("demo").onclick=async function(){
-  var t=new Date(),pl=place();if(!pl.n){alert(T("เลือกประเทศก่อน"));return}this.disabled=true;
+  var t=new Date(),pl=place();if(!pl.n){alert(tx("เลือกประเทศก่อน"));return}this.disabled=true;
   for(var i=89;i>=0;i--){var x=new Date(t);x.setDate(t.getDate()-i);
     var wet=Math.random()<0.4,hi=30+Math.random()*6,lo=hi-5-Math.random()*3;
-    try{await put(mk(iso(x),wet?Math.round(Math.random()*400)/10:0,Math.round(hi*10)/10,Math.round(lo*10)/10,pl,Object.assign(xtra(),{hu:Math.round(wet?75+Math.random()*20:50+Math.random()*25),gt:Math.round((wet?hi-1+Math.random()*3:hi+3+Math.random()*7)*10)/10,gm:Math.round(wet?55+Math.random()*30:20+Math.random()*25)})))}catch(e){alert(T("เขียนข้อมูลไม่ได้"));break}}
+    try{await put(mk(iso(x),wet?Math.round(Math.random()*400)/10:0,Math.round(hi*10)/10,Math.round(lo*10)/10,pl,Object.assign(xtra(),{hu:Math.round(wet?75+Math.random()*20:50+Math.random()*25),gt:Math.round((wet?hi-1+Math.random()*3:hi+3+Math.random()*7)*10)/10,gm:Math.round(wet?55+Math.random()*30:20+Math.random()*25)})))}catch(e){alert(tx("เขียนข้อมูลไม่ได้"));break}}
   this.disabled=false;
 };
 var AI=null;
 AI=function(p){return api("/api/ai",{method:"POST",body:JSON.stringify({prompt:p,provider:curProv()})}).then(function(j){return{text:j.text}})};
 AI.json=function(p){return AI(p+"\n\nตอบเป็น JSON อย่างเดียว ห้ามมีข้อความอื่นหรือ code fence").then(function(r){var t=r.text,i=t.indexOf("{"),j=t.lastIndexOf("}");return JSON.parse(t.slice(i,j+1))})};
 $("aiq").style.display="";$("aiall").style.display="";
-function aiErr(e){return e&&e.code==="not_granted"?T("ยังไม่ได้อนุญาตให้ใช้ AI"):e&&e.code==="rate_limited"?T("ใช้ถี่เกินไป รอสักครู่แล้วลองใหม่"):T("AI ตอบไม่สำเร็จ ลองใหม่อีกครั้ง")}
+function aiErr(e){return e&&e.code==="not_granted"?tx("ยังไม่ได้อนุญาตให้ใช้ AI"):e&&e.code==="rate_limited"?tx("ใช้ถี่เกินไป รอสักครู่แล้วลองใหม่"):tx("AI ตอบไม่สำเร็จ ลองใหม่อีกครั้ง")}
 $("qb").onclick=async function(){
-  var t=$("qt").value.trim();if(!t||!AI)return;var b=this;b.disabled=true;$("qm").textContent=T("กำลังแยกข้อมูล…");
+  var t=$("qt").value.trim();if(!t||!AI)return;var b=this;b.disabled=true;$("qm").textContent=tx("กำลังแยกข้อมูล…");
   var q='วันนี้คือ '+iso(new Date())+'. แยกข้อความต่อไปนี้เป็น JSON เท่านั้น: {"d":"YYYY-MM-DD","r":ฝนมม. (ไม่มีให้ 0),"hi":อุณหภูมิสูงสุด°C,"lo":อุณหภูมิต่ำสุด°C,"c":ทวีป,"n":ประเทศ,"g":ภาคหรือรัฐ,"p":จังหวัดหรือเมือง,"cp":ชนิดพืชหรือสัตว์,"ag":พื้นที่เกษตรเป็นไร่,"ir":น้ำเสริมมม.,"ef":ผลที่สังเกตได้,"hu":ความชื้นสัมพัทธ์เป็นเปอร์เซ็นต์,"gt":อุณหภูมิผิวดิน°C,"gm":ความชื้นดินเป็นเปอร์เซ็นต์}. ทวีปเลือกจาก: '+Object.keys(CT).join(", ")+'. ชื่อประเทศ ภาค จังหวัด เขียนเป็นภาษาไทย. ถ้าเป็นไทย ภาคเลือกจาก: '+Object.keys(TH).join(", ")+' และสะกดจังหวัดตามชื่อทางการ. ชนิดพืชหรือสัตว์เลือกจาก: '+Object.keys(CR).join(", ")+'. ผลที่สังเกตได้เลือกจาก: '+EF.slice(1).join(", ")+'. ข้อมูลที่ไม่มีใช้ null. ข้อความ: '+t;
   try{
     var o=await AI.json(q),k,miss=[];
@@ -432,7 +434,7 @@ $("qb").onclick=async function(){
     if(o.hi!=null)$("hi").value=o.hi;else miss.push("อุณหภูมิสูงสุด");
     if(o.lo!=null)$("lo").value=o.lo;else miss.push("อุณหภูมิต่ำสุด");
     if(o.cp&&CR[o.cp])$("cp").value=o.cp;if(o.ag>0)$("ag").value=o.ag;if(o.ir>0)$("ir").value=o.ir;if(o.ef&&EF.indexOf(o.ef)>=0)$("ef").value=o.ef;if(o.hu>0&&o.hu<=100)$("hu").value=o.hu;if(o.gt!=null)$("gt").value=o.gt;if(o.gm>0&&o.gm<=100)$("gm").value=o.gm;
-    $("qm").textContent=T("แยกให้แล้ว ตรวจในฟอร์มด้านล่างแล้วกดบันทึก")+(miss.length?" ("+T("ไม่พบ")+": "+miss.join(", ")+")":"");
+    $("qm").textContent=tx("แยกให้แล้ว ตรวจในฟอร์มด้านล่างแล้วกดบันทึก")+(miss.length?" ("+tx("ไม่พบ")+": "+miss.join(", ")+")":"");
   }catch(e){$("qm").textContent=aiErr(e)}
   b.disabled=false;
 };
@@ -470,21 +472,21 @@ function prob(){
   if(m!=="")R=R.filter(function(e){return+e.d.slice(5,7)-1===+m});
   if(!pdirty){var mh=med(R.map(function(e){return e.hi})),ml=med(R.map(function(e){return e.lo}));
     $("ph").value=mh==null?"":mh.toFixed(1);$("pl").value=ml==null?"":ml.toFixed(1)}
-  if(!R.length){out.innerHTML='<p class="empty">ยังไม่มีข้อมูลในพื้นที่/เดือนนี้ให้คำนวณ</p>';return}
+  if(!R.length){out.innerHTML='<p class="empty">'+tx("ยังไม่มีข้อมูลในพื้นที่/เดือนนี้ให้คำนวณ")+'</p>';return}
   var h=parseFloat($("ph").value),l=parseFloat($("pl").value),u=parseFloat($("pu").value);
-  if(isNaN(h)||isNaN(l)){out.innerHTML='<p class="empty">ใส่อุณหภูมิสูงสุดและต่ำสุดเพื่อดูโอกาสฝน</p>';return}
+  if(isNaN(h)||isNaN(l)){out.innerHTML='<p class="empty">'+tx("ใส่อุณหภูมิสูงสุดและต่ำสุดเพื่อดูโอกาสฝน")+'</p>';return}
   var tol=1.5,A=[],f=function(e){return Math.abs(e.hi-h)<=tol&&Math.abs(e.lo-l)<=tol&&(isNaN(u)||(e.hu!=null&&Math.abs(e.hu-u)<=10))};
   A=R.filter(f);while(A.length<15&&tol<4){tol+=0.5;A=R.filter(f)}
-  if(!A.length){out.innerHTML='<p class="empty">ไม่พบวันที่อุณหภูมิใกล้เคียง (±4°C) ลองปรับค่า หรือเลือก "ทุกเดือน"</p>';return}
+  if(!A.length){out.innerHTML='<p class="empty">'+tx("ไม่พบวันที่อุณหภูมิใกล้เคียง (±4°C) ลองปรับค่า หรือเลือก \"ทุกเดือน\"")+'</p>';return}
   var n=A.length,B=[0,0,0,0,0],sum=0,wet=0,mx=0;
   A.forEach(function(e){var r=e.r,i=r<=0?0:r<5?1:r<20?2:r<50?3:4;B[i]++;sum+=r;if(r>0)wet++;if(r>mx)mx=r});
   var base=Math.round(100*R.filter(function(e){return e.r>0}).length/R.length),pw=Math.round(100*wet/n);
   var L=["ไม่มีฝน","เล็กน้อย","ปานกลาง","หนัก","หนักมาก"],top=B.indexOf(Math.max.apply(null,B));
   var cf=n<10?"ตัวอย่างน้อยมาก ใช้ประกอบเท่านั้น":n<30?"ตัวอย่างค่อนข้างน้อย":"ตัวอย่างพอใช้";
   PR={อุณหภูมิสูงสุด:h,อุณหภูมิต่ำสุด:l,ความชื้น:isNaN(u)?null:u,เดือน:m===""?"ทุกเดือน":M[+m],จำนวนวันใกล้เคียง:n,ช่วงอุณหภูมิ_บวกลบ:tol,โอกาสฝน_เปอร์เซ็นต์:pw,โอกาสฝนทั้งช่วงข้อมูล_เปอร์เซ็นต์:base,ฝนเฉลี่ย_มม:+(sum/n).toFixed(1),ฝนสูงสุด_มม:mx,สัดส่วนระดับ_เปอร์เซ็นต์:{}};B.forEach(function(c,i){PR.สัดส่วนระดับ_เปอร์เซ็นต์[L[i]]=Math.round(100*c/n)});
-  out.innerHTML='<div class="grid kv">'+kv("โอกาสมีฝน",'<span style="color:var(--rain)">'+pw+'%</span> <span class="sm">(ทั้งช่วง '+base+'%)</span>')+kv("ฝนเฉลี่ย/วัน",(sum/n).toFixed(1)+" มม.")+kv("ถ้าฝนตก เฉลี่ย",wet?(sum/wet).toFixed(1)+" มม.":"-")+kv("ฝนสูงสุดที่เคยเจอ",mx+" มม.")+'</div>'+
-  B.map(function(c,i){return'<div class="bar'+(i===top?" on":"")+'"><span>'+L[i]+'</span><div><i style="width:'+(100*c/n)+'%"></i></div><span style="text-align:right">'+Math.round(100*c/n)+'%</span></div>'}).join("")+
-  '<p class="hint" style="margin-top:6px">เล็กน้อย &lt;5 · ปานกลาง 5–20 · หนัก 20–50 · หนักมาก 50+ มม./วัน<br>จาก '+n+' วันที่ใกล้เคียง ('+h+'°/'+l+'° ±'+tol+'°C'+(isNaN(u)?"":", ความชื้น "+u+"% ±10")+') · '+cf+'</p>';
+  out.innerHTML='<div class="grid kv">'+kv(tx("โอกาสมีฝน"),'<span style="color:var(--rain)">'+pw+'%</span> <span class="sm">('+tx("ทั้งช่วง")+' '+base+'%)</span>')+kv(tx("ฝนเฉลี่ย/วัน"),(sum/n).toFixed(1)+" "+tx("มม."))+kv(tx("ถ้าฝนตก เฉลี่ย"),wet?(sum/wet).toFixed(1)+" "+tx("มม."):"-")+kv(tx("ฝนสูงสุดที่เคยเจอ"),mx+" "+tx("มม."))+'</div>'+
+  B.map(function(c,i){return'<div class="bar'+(i===top?" on":"")+'"><span>'+tx(L[i])+'</span><div><i style="width:'+(100*c/n)+'%"></i></div><span style="text-align:right">'+Math.round(100*c/n)+'%</span></div>'}).join("")+
+  '<p class="hint" style="margin-top:6px">'+tx("เล็กน้อย &lt;5 · ปานกลาง 5–20 · หนัก 20–50 · หนักมาก 50+ มม./วัน")+'<br>'+tx("จาก")+' '+n+' '+tx("วันที่ใกล้เคียง")+' ('+h+'°/'+l+'° ±'+tol+'°C'+(isNaN(u)?"":", "+tx("ความชื้น")+" "+u+"% ±10")+') · '+tx(cf)+'</p>';
 }
 $("ph").oninput=$("pl").oninput=function(){pdirty=true;prob()};
 $("pm").onchange=prob;$("pu").oninput=prob;
@@ -554,7 +556,7 @@ function corr(x,y){var n=x.length;if(n<8)return null;var mx=0,my=0,i,a=0,b=0,c=0
 function av(L,f){return L.length?L.reduce(function(s,e){return s+f(e)},0)/L.length:null}
 function soil(){
   var Y=rows.filter(match).filter(function(e){return+e.d.slice(0,4)===year}),G=Y.filter(function(e){return e.gt!=null}),Mo=Y.filter(function(e){return e.gm!=null}),out=$("soilb");SO=null;
-  if(!G.length&&!Mo.length){out.innerHTML='<p class="empty">ยังไม่มีบันทึกอุณหภูมิผิวดินหรือความชื้นดิน ใส่ได้ในฟอร์มด้านล่าง</p>';return}
+  if(!G.length&&!Mo.length){out.innerHTML='<p class="empty">'+tx("ยังไม่มีบันทึกอุณหภูมิผิวดินหรือความชื้นดิน ใส่ได้ในฟอร์มด้านล่าง")+'</p>';return}
   var wt=G.filter(function(e){return e.r>0}),dt=G.filter(function(e){return e.r<=0}),wm=Mo.filter(function(e){return e.r>0}),dm=Mo.filter(function(e){return e.r<=0});
   var gt=function(e){return e.gt},gm=function(e){return e.gm},ok=function(a,b){return a.length>=3&&b.length>=3};
   var gAv=av(G,gt),aAv=av(G,function(e){return(e.hi+e.lo)/2});
@@ -566,10 +568,10 @@ function soil(){
     สหสัมพันธ์_ผิวดิน_กับ_ความชื้นอากาศ:corr(G.filter(function(e){return e.hu!=null}).map(gt),G.filter(function(e){return e.hu!=null}).map(function(e){return e.hu})),
     สหสัมพันธ์_ความชื้นดิน_กับ_ฝน:corr(Mo.map(gm),Mo.map(function(e){return e.r}))};
   var u=function(v,s){return v==null?"–":v+s};
-  out.innerHTML='<div class="grid kv">'+kv("ผิวดินเฉลี่ย",u(SO.ผิวดินเฉลี่ย_C,"°C"))+kv("ผิวดินต่างจากอากาศ",SO.ผิวดินต่างจากอากาศเฉลี่ย_C==null?"–":(SO.ผิวดินต่างจากอากาศเฉลี่ย_C>0?"+":"")+SO.ผิวดินต่างจากอากาศเฉลี่ย_C+"°C")+kv("ความชื้นดินเฉลี่ย",u(SO.ความชื้นดินเฉลี่ย_เปอร์เซ็นต์,"%"))+
-    kv("ผิวดิน ฝนตก / ไม่ตก",SO.ผิวดินเฉลี่ยวันฝนตก_C==null?"–":SO.ผิวดินเฉลี่ยวันฝนตก_C+"° / "+SO.ผิวดินเฉลี่ยวันไม่มีฝน_C+"°")+
-    kv("ความชื้นดิน ฝนตก / ไม่ตก",SO.ความชื้นดินวันฝนตก_เปอร์เซ็นต์==null?"–":SO.ความชื้นดินวันฝนตก_เปอร์เซ็นต์+"% / "+SO.ความชื้นดินวันไม่มีฝน_เปอร์เซ็นต์+"%")+
-    kv("ผิวดิน–อุณหภูมิอากาศ (r)",u(SO.สหสัมพันธ์_ผิวดิน_กับ_อุณหภูมิสูงสุดอากาศ,""))+'</div><p class="hint">r ใกล้ 1 = ขึ้นลงไปด้วยกัน ต้องมีอย่างน้อย 8 วัน เป็นความสัมพันธ์ ไม่ใช่เหตุและผล (เช่น ฝนตกทำให้ดินชื้นและเย็นลงในวันเดียวกัน)</p>'}
+  out.innerHTML='<div class="grid kv">'+kv(tx("ผิวดินเฉลี่ย"),u(SO.ผิวดินเฉลี่ย_C,"°C"))+kv(tx("ผิวดินต่างจากอากาศ"),SO.ผิวดินต่างจากอากาศเฉลี่ย_C==null?"–":(SO.ผิวดินต่างจากอากาศเฉลี่ย_C>0?"+":"")+SO.ผิวดินต่างจากอากาศเฉลี่ย_C+"°C")+kv(tx("ความชื้นดินเฉลี่ย"),u(SO.ความชื้นดินเฉลี่ย_เปอร์เซ็นต์,"%"))+
+    kv(tx("ผิวดิน ฝนตก / ไม่ตก"),SO.ผิวดินเฉลี่ยวันฝนตก_C==null?"–":SO.ผิวดินเฉลี่ยวันฝนตก_C+"° / "+SO.ผิวดินเฉลี่ยวันไม่มีฝน_C+"°")+
+    kv(tx("ความชื้นดิน ฝนตก / ไม่ตก"),SO.ความชื้นดินวันฝนตก_เปอร์เซ็นต์==null?"–":SO.ความชื้นดินวันฝนตก_เปอร์เซ็นต์+"% / "+SO.ความชื้นดินวันไม่มีฝน_เปอร์เซ็นต์+"%")+
+    kv(tx("ผิวดิน–อุณหภูมิอากาศ (r)"),u(SO.สหสัมพันธ์_ผิวดิน_กับ_อุณหภูมิสูงสุดอากาศ,""))+'</div><p class="hint">'+tx("r ใกล้ 1 = ขึ้นลงไปด้วยกัน ต้องมีอย่างน้อย 8 วัน เป็นความสัมพันธ์ ไม่ใช่เหตุและผล (เช่น ฝนตกทำให้ดินชื้นและเย็นลงในวันเดียวกัน)")+'</p>'}
 /* auto-tracking (calls the Vercel API) */
 var TC=[];
 $("tf").onclick=async function(){var q=$("tq").value.trim()||F.p||F.g||(F.n===OT?F.nx:F.n);if(!q)return;
