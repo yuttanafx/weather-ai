@@ -40,11 +40,11 @@ const PROVIDERS = {
 };
 
 export default async function handler(req, res) {
-  if (!authed(req)) return deny(res);
   const avail = Object.keys(PROVIDERS).filter((k) => PROVIDERS[k].key());
   const dflt = avail.includes(process.env.AI_PROVIDER) ? process.env.AI_PROVIDER : avail[0] || null;
   if (req.method === "GET") return res.json({ providers: avail, default: dflt });
   if (req.method !== "POST") return res.status(405).end();
+  if (!authed(req)) return deny(res); // calling an AI costs money: members only
 
   const prompt = String(req.body?.prompt || "").slice(0, 30000);
   if (!prompt) return res.status(400).json({ error: "empty prompt" });

@@ -1,7 +1,7 @@
 import { sql, init, authed, deny, num } from "./_lib.js";
 
 export default async function handler(req, res) {
-  if (!authed(req)) return deny(res);
+  if (req.method !== "GET" && !authed(req)) return deny(res);
   try {
     await init();
     if (req.method === "GET") {

@@ -84,11 +84,14 @@ body.out main{display:none}
 #gate{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:16px}
 .gcard{width:min(380px,100%);background:var(--pa);border:1px solid var(--ln);border-radius:22px;padding:22px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
 .gcard h1{font-size:20px;margin:0 0 4px}.gerr{color:var(--hot);font-size:13px;min-height:1.3em;margin:8px 0 0}
+#gate{background:rgba(6,12,20,.45);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.gcard{position:relative}
+.gx{position:absolute;top:8px;right:10px;width:auto;margin:0;padding:2px 10px;background:none;color:var(--mu);font-size:18px;font-weight:300}
 </style>
 </head>
-<body class="out">
+<body>
 <div id="sky" aria-hidden="true"><div id="stars"></div><div id="orb"></div><div class="cl c1"></div><div class="cl c2"></div><div class="cl c3"></div><canvas id="cv"></canvas></div>
-<div id="gate" style="display:none"><form id="gf" class="gcard"><h1>🌦️ สมุดบันทึกอากาศ</h1><p class="hint" id="gtt">เข้าสู่ระบบ · สมาชิกเท่านั้นจึงเปิดดูและบันทึกข้อมูลได้</p>
+<div id="gate" style="display:none"><form id="gf" class="gcard"><button type="button" class="gx" id="gx" aria-label="ปิด">✕</button><h1>🌦️ สมุดบันทึกอากาศ</h1><p class="hint" id="gtt">เข้าสู่ระบบ · ต้องเป็นสมาชิกจึงจดบันทึกได้</p>
 <label for="gu">ชื่อผู้ใช้</label><input id="gu" autocomplete="username" required minlength="3" maxlength="32">
 <label for="gp" style="margin-top:10px">รหัสผ่าน (อย่างน้อย 8 ตัว)</label><input id="gp" type="password" autocomplete="current-password" required minlength="8">
 <div id="gcw" style="display:none"><label for="gc" style="margin-top:10px">รหัสเชิญ</label><input id="gc" autocomplete="off"></div>
@@ -96,7 +99,7 @@ body.out main{display:none}
 <button id="gsub" type="submit">เข้าสู่ระบบ</button>
 <button type="button" class="ghost" id="gsw">ยังไม่มีบัญชี? สมัครสมาชิก</button></form></div>
 <main>
-<div class="bar"><span class="who" id="who"></span><button class="lg" id="lg">ออกจากระบบ</button></div>
+<div class="bar"><span class="who" id="who"></span><button class="lg" id="lg">เข้าสู่ระบบ</button></div>
 <section class="hero">
 <div class="top"><h1>สมุดบันทึกอากาศ</h1><div style="display:flex;gap:8px;align-items:center"><span class="pill" id="st">กำลังเชื่อมต่อ</span><button class="tm" id="tm">🌙</button></div></div>
 <div class="lbl" id="wx" style="margin-top:6px;font-size:12px"></div>
@@ -201,9 +204,12 @@ async function api(path,o){o=o||{};
   if(r.status===401&&!o.noGate){showGate();throw{code:"auth"}}
   var j=await r.json().catch(function(){return{}});
   if(!r.ok)throw{code:r.status===429?"rate_limited":"http",status:r.status,message:j.error};return j}
-function showGate(){clearInterval(poll);document.body.classList.add("out");$("gate").style.display="flex"}
-async function startApp(u){document.body.classList.remove("out");$("gate").style.display="none";$("who").textContent="👤 "+u;
-  lastSig="";loadProv();await loadLogs();loadTracks();clearInterval(poll);poll=setInterval(loadLogs,60000)}
+var USER=null;
+function setBar(){$("who").textContent=USER?"👤 "+USER:"";$("lg").textContent=USER?"ออกจากระบบ":"เข้าสู่ระบบ"}
+function openGate(){gateMode("login");$("gate").style.display="flex";setTimeout(function(){$("gu").focus()},50)}
+function closeGate(){$("gate").style.display="none"}
+function showGate(){USER=null;setBar();openGate()}
+async function startApp(u){USER=u;setBar();closeGate();lastSig="";loadProv();await loadLogs();loadTracks();clearInterval(poll);poll=setInterval(loadLogs,60000)}
 async function loadLogs(){try{var j=await api("/api/logs"),sig=JSON.stringify(j.rows);
   $("st").textContent="● เชื่อมฐานข้อมูลแล้ว";if(sig!==lastSig){lastSig=sig;rows=j.rows;render()}}
   catch(e){$("st").textContent=e.code==="auth"?"ต้องใช้รหัสผ่าน":"เชื่อมฐานข้อมูลไม่ได้"}}
@@ -211,7 +217,8 @@ function put(e){return api("/api/logs",{method:"POST",body:JSON.stringify(e)}).t
 function del(id){return api("/api/logs?id="+encodeURIComponent(id),{method:"DELETE"}).then(loadLogs)}
 async function init(){
   lsLoad();rows=[];buildLoc();buildAg();render();
-  try{var j=await api("/api/auth",{noGate:true});if(j.user)startApp(j.user);else showGate()}catch(e){showGate()}
+  var u=null;try{u=(await api("/api/auth",{noGate:true})).user}catch(e){}
+  startApp(u);
 }
 /* form location */
 function opt(l,sel){return l.map(function(v){return'<option'+(v===sel?" selected":"")+'>'+esc(v)+'</option>'}).join("")}
@@ -503,13 +510,22 @@ async function loadProv(){try{var j=await api("/api/ai"),sv="";try{sv=localStora
   var on=j.providers.length?"":"none";$("aiq").style.display=on;$("aiall").style.display=on}catch(e){}}
 $("aip").onchange=function(){try{localStorage.setItem("weatherlog.prov",this.value)}catch(e){}};
 var gmode="login";
-function gateMode(m){gmode=m;var L=m==="login";$("gtt").textContent=L?"เข้าสู่ระบบ · สมาชิกเท่านั้นจึงเปิดดูและบันทึกข้อมูลได้":"สมัครสมาชิก";$("gcw").style.display=L?"none":"";
+function gateMode(m){gmode=m;var L=m==="login";$("gtt").textContent=L?"เข้าสู่ระบบ · ต้องเป็นสมาชิกจึงจดบันทึกได้":"สมัครสมาชิก";$("gcw").style.display=L?"none":"";
   $("gsub").textContent=L?"เข้าสู่ระบบ":"สมัครสมาชิก";$("gsw").textContent=L?"ยังไม่มีบัญชี? สมัครสมาชิก":"มีบัญชีแล้ว? เข้าสู่ระบบ";$("gerr").textContent="";$("gp").autocomplete=L?"current-password":"new-password"}
 $("gsw").onclick=function(){gateMode(gmode==="login"?"register":"login")};
 $("gf").onsubmit=async function(ev){ev.preventDefault();$("gerr").textContent="";var b=$("gsub");b.disabled=true;
   try{var j=await api("/api/auth",{method:"POST",noGate:true,body:JSON.stringify({action:gmode,username:$("gu").value.trim(),password:$("gp").value,code:$("gc").value.trim()})});$("gp").value="";startApp(j.user)}
   catch(e){$("gerr").textContent=e.message||"ไม่สำเร็จ ลองใหม่อีกครั้ง"}b.disabled=false};
-$("lg").onclick=async function(){try{await api("/api/auth",{method:"POST",noGate:true,body:JSON.stringify({action:"logout"})})}catch(e){}rows=[];lastSig="";render();gateMode("login");showGate()};
+$("lg").onclick=async function(){if(!USER){openGate();return}
+  try{await api("/api/auth",{method:"POST",noGate:true,body:JSON.stringify({action:"logout"})})}catch(e){}
+  USER=null;setBar()};
+$("gx").onclick=closeGate;
+$("gate").onclick=function(ev){if(ev.target===this)closeGate()};
+document.addEventListener("keydown",function(ev){if(ev.key==="Escape")closeGate()});
+/* viewing is open; typing or pressing a write button asks for login first */
+["add","demo","qb","aib","tf"].forEach(function(id){var f=$(id).onclick;$(id).onclick=function(ev){if(!USER){openGate();return}return f.call(this,ev)}});
+["list","tl","tc"].forEach(function(id){var f=$(id).onclick;$(id).onclick=function(ev){if(!USER&&ev.target.closest("[data-id],[data-pull],[data-rm],#ta")){openGate();return}return f.call(this,ev)}});
+document.addEventListener("focusin",function(ev){if(USER)return;var t=ev.target;if(t.closest&&t.closest(".form,#trk,#aiq")){t.blur();openGate()}});
 $("d").value=iso(new Date());
 init();
 </script>
