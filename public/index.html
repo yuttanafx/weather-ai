@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>สมุดบันทึกอากาศ</title>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#edf2f0;--pa:rgba(255,255,255,.72);--tx:#10272e;--mu:#5d7279;--ln:#d3dedb;--rain:#2a6fdb;--hot:#e8801c;--cold:#2fa8c0;--ink:#10272e;--inkt:#e9f2f0;--inkm:#8fb0b5}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1519;--pa:rgba(14,26,34,.68);--tx:#e6f0ee;--mu:#86a0a6;--ln:#22343a;--rain:#5b9bff;--hot:#ff9a3c;--cold:#52cde2;--ink:#162a31}}
+:root[data-theme="dark"]{--bg:#0b1519;--pa:rgba(14,26,34,.68);--tx:#e6f0ee;--mu:#86a0a6;--ln:#22343a;--rain:#5b9bff;--hot:#ff9a3c;--cold:#52cde2;--ink:#162a31}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+html{background:var(--bg)}body{margin:0;background:transparent;color:var(--tx);font-family:"Prompt","Noto Sans Thai",system-ui,sans-serif;font-weight:300;line-height:1.55}
+main{max-width:560px;margin:0 auto;padding:14px 14px 40px}
+.hero{background:var(--ink);color:var(--inkt);border-radius:22px;padding:18px 18px 16px;margin-bottom:14px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.top h1{font-size:17px;font-weight:500;margin:0}
+.pill{font-size:11px;padding:2px 9px;border-radius:99px;border:1px solid #ffffff33;color:var(--inkm);white-space:nowrap}
+.yrs{display:flex;gap:6px;overflow-x:auto;margin:12px 0 14px;padding-bottom:2px;scrollbar-width:none}
+.yrs button{width:auto;margin:0;flex:none;background:transparent;border:1px solid #ffffff33;color:var(--inkm);border-radius:99px;padding:5px 14px;font-weight:400;font-size:14px}
+.yrs button.on{background:var(--inkt);color:#10272e;border-color:var(--inkt)}
+.hg{display:flex;gap:18px;align-items:center}
+.hg svg{width:74px;flex:none}
+.big{font-size:44px;font-weight:600;line-height:1;letter-spacing:-.02em}
+.big small{font-size:16px;font-weight:300;color:var(--inkm);margin-left:4px;letter-spacing:0}
+.lbl{color:var(--inkm);font-size:13px}
+.mini{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;margin-top:12px;font-size:13px}
+.mini b{font-weight:500;font-size:15px}
+.scope{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px}.scope select{width:100%;background:#ffffff14;color:var(--inkt);border:1px solid #ffffff33;border-radius:10px;padding:7px 8px;font:inherit;font-size:13px}.scope option{color:#10272e}select{width:100%;padding:10px 12px;border:1px solid var(--ln);border-radius:12px;background:var(--bg);color:var(--tx);font:inherit;font-size:16px}.go{cursor:pointer}.go:hover span:first-child{text-decoration:underline}.sm{font-size:11px;color:var(--mu)}.aio{font-size:14px;white-space:pre-wrap}.aio:empty{display:none}.kv div{background:var(--pa);border:1px solid var(--ln);border-radius:14px;padding:10px 12px}.kv b{font-size:16px;font-weight:500}.kv{margin-bottom:8px}.crow{padding:9px 0;border-bottom:1px solid var(--ln);font-size:14px}.crow .sm{display:block;margin:1px 0 3px}.sec{padding:6px 4px 0;margin-bottom:22px}
+h2{font-size:15px;font-weight:500;margin:0 0 4px}
+.hint{font-size:12px;color:var(--mu);margin:0 0 8px}
+svg{display:block;width:100%;height:auto}
+.leg{font-size:12px;color:var(--mu);display:flex;gap:14px;margin-top:6px}
+.leg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px}
+.bar{display:grid;grid-template-columns:minmax(44px,96px) 1fr 62px;gap:8px;align-items:center;font-size:13px;margin:7px 0}
+.bar div{height:10px;border-radius:5px;background:var(--ln);overflow:hidden}
+.bar div i{display:block;height:100%;border-radius:5px;background:var(--rain);opacity:.45}
+.bar.on div i{opacity:1}.bar.on span:first-child{font-weight:600}
+.form{background:var(--pa);border-radius:20px;padding:16px;border:1px solid var(--ln)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+label{font-size:12px;color:var(--mu);display:block;margin-bottom:3px}
+input{width:100%;padding:10px 12px;border:1px solid var(--ln);border-radius:12px;background:var(--bg);color:var(--tx);font:inherit;font-size:16px}
+input:focus-visible,button:focus-visible{outline:2px solid var(--rain);outline-offset:2px}
+button{font:inherit;font-weight:500;border:0;border-radius:12px;padding:12px;background:var(--rain);color:#fff;width:100%;margin-top:12px;cursor:pointer}
+.ghost{background:transparent;color:var(--mu);border:1px dashed var(--ln);font-weight:300;margin-top:8px}
+.row{display:grid;grid-template-columns:1fr auto auto 28px;gap:8px;align-items:center;padding:9px 0;border-bottom:1px solid var(--ln);font-size:14px}
+.row .x{background:none;color:var(--mu);margin:0;padding:2px;font-weight:300}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+.empty{color:var(--mu);font-size:14px;padding:6px 0}
+@media (prefers-reduced-motion:no-preference){#fill{transition:height .8s cubic-bezier(.2,.8,.2,1),y .8s cubic-bezier(.2,.8,.2,1)}}
+#sky{position:fixed;inset:0;z-index:-1;overflow:hidden;background:linear-gradient(180deg,#9fd3f0 0%,#d4ecf1 55%,#eaf4ec 100%)}
+:root[data-theme="dark"] #sky{background:linear-gradient(180deg,#060b1d 0%,#0e1f38 58%,#15303f 100%)}
+#sky::after{content:"";position:absolute;inset:0;background:#fff;opacity:0;transition:opacity .3s;pointer-events:none}
+#sky.fl::after{opacity:.22;transition:none}
+#cv{position:absolute;inset:0;width:100%;height:100%}
+#orb{position:absolute;top:6%;right:10%;width:84px;height:84px;border-radius:50%;background:radial-gradient(circle,#fffbe0 0 30%,#ffd45e 58%,#ffd45e00 72%);box-shadow:0 0 80px 30px #ffd45e66;animation:pulse 6s ease-in-out infinite;transition:opacity .8s,width .8s,height .8s}
+:root[data-theme="dark"] #orb{background:radial-gradient(circle at 35% 35%,#fff 0 28%,#e3ebf7 55%,#c3d2ea 72%);box-shadow:0 0 70px 18px #9fb8ff44;animation:none}
+#orb.hot{width:108px;height:108px;box-shadow:0 0 120px 55px #ff8a3d80;background:radial-gradient(circle,#fff2cf 0 30%,#ffa24a 58%,#ff8a3d00 72%)}
+:root[data-theme="dark"] #orb.hot{box-shadow:0 0 70px 18px #ffb08044}
+#orb.dim{opacity:.3}
+@keyframes pulse{50%{transform:scale(1.07)}}
+.cl{position:absolute;left:-280px;width:200px;height:56px;border-radius:56px;background:#ffffffd9;animation:drift 80s linear infinite}
+.cl::before,.cl::after{content:"";position:absolute;background:inherit;border-radius:50%}
+.cl::before{width:92px;height:92px;top:-44px;left:32px}.cl::after{width:70px;height:70px;top:-30px;left:108px}
+.c1{top:14%}.c2{top:30%;transform:scale(.7);animation-duration:120s;animation-delay:-50s;opacity:.8}.c3{top:48%;transform:scale(1.3);animation-duration:150s;animation-delay:-100s;opacity:.55}
+@keyframes drift{to{translate:calc(100vw + 560px)}}
+#sky.wet .cl{background:#9fb0bfe0}
+:root[data-theme="dark"] .cl{background:#3d5073cc;opacity:.5}
+:root[data-theme="dark"] #sky.wet .cl{background:#2c3b52e0}
+#stars{position:absolute;inset:0;opacity:0;transition:opacity .8s}
+:root[data-theme="dark"] #stars{opacity:1}
+#stars i{position:absolute;border-radius:50%;background:#fff;animation:tw 3s ease-in-out infinite}
+@keyframes tw{50%{opacity:.15}}
+.tm{width:34px;height:34px;border-radius:50%;padding:0;margin:0;background:#ffffff1f;border:1px solid #ffffff33;font-size:16px;line-height:1}
+.sec{background:var(--pa);border:1px solid var(--ln);border-radius:20px;padding:14px 16px;margin-bottom:14px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.form{backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+@media (prefers-reduced-motion:reduce){.cl,#orb,#stars i{animation:none}}
+</style>
+</head>
+<body>
+<div id="sky" aria-hidden="true"><div id="stars"></div><div id="orb"></div><div class="cl c1"></div><div class="cl c2"></div><div class="cl c3"></div><canvas id="cv"></canvas></div>
+<main>
+<section class="hero">
+<div class="top"><h1>สมุดบันทึกอากาศ</h1><div style="display:flex;gap:8px;align-items:center"><span class="pill" id="st">กำลังเชื่อมต่อ</span><button class="tm" id="tm">🌙</button></div></div>
+<div class="lbl" id="wx" style="margin-top:6px;font-size:12px"></div>
+<div class="yrs" id="yrs"></div>
+<div class="scope" id="scope"></div>
+<div class="hg">
+<svg viewBox="0 0 74 200" aria-hidden="true"><defs><clipPath id="cp"><rect x="24" y="10" width="26" height="176" rx="13"/></clipPath></defs>
+<rect x="24" y="10" width="26" height="176" rx="13" fill="#ffffff12" stroke="#ffffff40"/>
+<rect id="fill" x="24" y="186" width="26" height="0" fill="#5b9bff" clip-path="url(#cp)"/>
+<g stroke="#ffffff55" stroke-width="1"><path d="M54 48h8M54 92h8M54 136h8"/><path d="M54 70h5M54 114h5M54 158h5"/></g></svg>
+<div><div class="lbl" id="lbltot">ฝนรวมทั้งปี</div><div class="big" id="tot">0<small>มม.</small></div>
+<div class="mini" id="mini"></div></div>
+</div>
+</section>
+
+<section class="sec" id="aiall" style="display:none"><h2>AI วิเคราะห์ภาพรวม</h2><p class="hint">AI อ่านผลคำนวณทั้งหมดที่แสดงอยู่ในหน้านี้ตามพื้นที่และปีที่เลือก แล้วสรุปเป็นรายงานเดียว</p><p class="hint" id="aisrc"></p><button id="aib" style="margin:4px 0 10px">ให้ AI วิเคราะห์ทั้งหมด</button><div id="aio" class="aio"></div></section>
+<section class="sec">
+<h2>เดือนต่อเดือน</h2><p class="hint">แท่งคือฝนรวม แถบสีส้มคือช่วงอุณหภูมิเฉลี่ยของเดือน</p>
+<svg id="chart" viewBox="0 0 340 190" role="img" aria-label="กราฟรายเดือน"></svg>
+<div class="leg"><span><i style="background:var(--rain)"></i>ฝน (มม.)</span><span><i style="background:var(--hot)"></i>สูงสุดเฉลี่ย</span><span><i style="background:var(--cold)"></i>ต่ำสุดเฉลี่ย</span></div>
+</section>
+
+<section class="sec" id="agw"><h2>เกษตรและสิ่งมีชีวิต</h2><p class="hint">น้ำที่ได้รับ = ฝน + น้ำเสริม (1 มม. บน 1 ไร่ ≈ 1.6 ลบ.ม.) และนับวันที่อุณหภูมิเกินเกณฑ์ของแต่ละชนิด</p><div id="agb"></div></section>
+<section class="sec" id="soilw"><h2>ผิวดิน</h2><p class="hint">เทียบอุณหภูมิผิวดินและความชื้นดินกับอุณหภูมิอากาศและฝน ในพื้นที่และปีที่เลือก</p><div id="soilb"></div></section>
+<section class="sec" id="prw"><h2>โอกาสฝนจากอุณหภูมิ</h2><p class="hint">ดูจากวันในอดีตที่อุณหภูมิใกล้เคียงกัน ในพื้นที่ที่เลือก (ทุกปี) เป็นความถี่ในอดีต ไม่ใช่การพยากรณ์</p>
+<div class="grid"><div><label for="ph">สูงสุด (°C)</label><input type="number" id="ph" step="0.1"></div><div><label for="pl">ต่ำสุด (°C)</label><input type="number" id="pl" step="0.1"></div></div>
+<div style="margin-top:10px"><label for="pu">ความชื้น % (ไม่บังคับ ใช้ช่วง ±10)</label><input type="number" id="pu" min="0" max="100" step="1"></div>
+<div class="grid" style="margin-top:10px"><div><label for="pm">เดือน</label><select id="pm"><option value="">ทุกเดือน</option><option value="0">ม.ค.</option><option value="1">ก.พ.</option><option value="2">มี.ค.</option><option value="3">เม.ย.</option><option value="4">พ.ค.</option><option value="5">มิ.ย.</option><option value="6">ก.ค.</option><option value="7">ส.ค.</option><option value="8">ก.ย.</option><option value="9">ต.ค.</option><option value="10">พ.ย.</option><option value="11">ธ.ค.</option></select></div><div style="align-self:end"><button class="ghost" id="pmid" style="margin:0">ใช้ค่ากลาง</button></div></div>
+<div id="pro" style="margin-top:12px"></div></section>
+<section class="sec" id="atw"><h2>ประเมินชั้นบรรยากาศ</h2><p class="hint">ข้อมูลที่ผิวโลกบอกได้จริงแค่ชั้นล่างสุด (โทรโพสเฟียร์) ชั้นบนใช้ค่าอ้างอิงมาตรฐาน และติดป้ายแยกให้ชัด</p>
+<div class="grid"><div><label for="asrc">ข้อมูลที่ใช้</label><select id="asrc"><option value="year">เฉลี่ยของปีที่เลือก</option><option value="latest">บันทึกล่าสุด</option></select></div><div><label for="azn">เขตภูมิอากาศ</label><select id="azn"><option value="trop">เขตร้อน (~16 กม.)</option><option value="mid">เขตอบอุ่น (~11 กม.)</option><option value="pol">ขั้วโลก (~8 กม.)</option></select></div></div>
+<div id="atb" style="margin-top:12px"></div>
+</section>
+
+<section class="sec" id="bdw"><h2 id="bdt">แยกตามพื้นที่</h2><div id="bd"></div></section>
+<section class="sec"><h2>ฝนแต่ละปี</h2><div id="cmp"></div></section>
+
+<section class="form">
+<div id="aiq" style="display:none;margin-bottom:16px"><label for="qt">เล่าเป็นประโยค ให้ AI แยกให้</label><input id="qt" placeholder="เมื่อวานที่เชียงใหม่ ฝน 12 มม. ร้อน 33 เย็น 24"><button id="qb" class="ghost" style="margin-top:8px">ให้ AI แยกข้อมูล</button><p class="hint" id="qm" style="margin-top:6px"></p></div>
+<h2>จดวันนี้</h2>
+<div class="grid" id="loc" style="margin-bottom:10px"></div>
+<div class="grid">
+<div><label for="d">วันที่</label><input type="date" id="d"></div>
+<div><label for="r">น้ำฝน (มม.)</label><input type="number" id="r" min="0" step="0.1" placeholder="0"></div>
+<div><label for="hi">สูงสุด (°C)</label><input type="number" id="hi" step="0.1" placeholder="35"></div>
+<div><label for="lo">ต่ำสุด (°C)</label><input type="number" id="lo" step="0.1" placeholder="25"></div>
+<div><label for="hu">ความชื้น (%)</label><input type="number" id="hu" min="0" max="100" step="1" placeholder="70"></div>
+<div><label for="gt">อุณหภูมิผิวดิน (°C)</label><input type="number" id="gt" step="0.1" placeholder="38"></div>
+<div><label for="gm">ความชื้นดิน (%)</label><input type="number" id="gm" min="0" max="100" step="1" placeholder="40"></div>
+</div>
+<h2 style="margin-top:18px">เกษตรและสิ่งมีชีวิต <span class="sm">(ไม่บังคับ)</span></h2>
+<div class="grid" id="agf"></div>
+<button id="add">บันทึก</button>
+<button class="ghost" id="demo">เติมข้อมูลตัวอย่าง 90 วัน</button>
+</section>
+
+<section class="sec" id="trk"><h2>ดึงข้อมูลอัตโนมัติ</h2><p class="hint">ใช้พื้นที่ที่เลือกในฟอร์มด้านบน ระบบจะดึงอุณหภูมิ ความชื้น ฝน อุณหภูมิผิวดินและความชื้นดินจาก Open-Meteo ตามเวลาที่ตั้ง แล้วบันทึกเป็นข้อมูลรายวัน</p>
+<div class="grid"><div><label for="tq">ค้นหาพิกัดจากชื่อ</label><input id="tq" placeholder="เช่น เชียงใหม่"></div><div><label for="tv">ดึงทุก (ชม.)</label><select id="tv"><option>1</option><option>3</option><option selected>6</option><option>12</option><option>24</option></select></div></div>
+<button class="ghost" id="tf" style="margin-top:8px">ค้นหาพิกัด</button>
+<div id="tc"></div>
+<div id="tl" style="margin-top:10px"></div></section>
+<section class="sec" style="margin-top:22px"><h2>สมุดจดล่าสุด</h2><div id="list"></div></section>
+</main>
+<script>
+var M=["ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."];
+var OT="อื่นๆ (พิมพ์เอง)",LV=["c","n","g","p"],LN=["ทวีป","ประเทศ","ภาค","จังหวัด"];
+var CT={"เอเชีย":["ไทย","ลาว","กัมพูชา","เวียดนาม","เมียนมา","มาเลเซีย","สิงคโปร์","อินโดนีเซีย","ฟิลิปปินส์","ญี่ปุ่น","จีน","อินเดีย","เกาหลีใต้"],
+"ยุโรป":["สหราชอาณาจักร","ฝรั่งเศส","เยอรมนี","อิตาลี","สเปน"],"อเมริกาเหนือ":["สหรัฐอเมริกา","แคนาดา","เม็กซิโก"],"อเมริกาใต้":["บราซิล","อาร์เจนตินา","ชิลี"],
+"แอฟริกา":["อียิปต์","แอฟริกาใต้","เคนยา","ไนจีเรีย"],"โอเชียเนีย":["ออสเตรเลีย","นิวซีแลนด์"],"แอนตาร์กติกา":[]};
+var TH={"เหนือ":"เชียงใหม่ เชียงราย ลำปาง ลำพูน แม่ฮ่องสอน น่าน พะเยา แพร่ อุตรดิตถ์",
+"ตะวันออกเฉียงเหนือ":"กาฬสินธุ์ ขอนแก่น ชัยภูมิ นครพนม นครราชสีมา บึงกาฬ บุรีรัมย์ มหาสารคาม มุกดาหาร ยโสธร ร้อยเอ็ด เลย สกลนคร สุรินทร์ ศรีสะเกษ หนองคาย หนองบัวลำภู อุดรธานี อุบลราชธานี อำนาจเจริญ",
+"กลาง":"กรุงเทพมหานคร กำแพงเพชร ชัยนาท นครนายก นครปฐม นครสวรรค์ นนทบุรี ปทุมธานี พระนครศรีอยุธยา พิจิตร พิษณุโลก เพชรบูรณ์ ลพบุรี สมุทรปราการ สมุทรสงคราม สมุทรสาคร สิงห์บุรี สุโขทัย สุพรรณบุรี สระบุรี อ่างทอง อุทัยธานี",
+"ตะวันตก":"กาญจนบุรี ตาก ประจวบคีรีขันธ์ เพชรบุรี ราชบุรี","ตะวันออก":"จันทบุรี ฉะเชิงเทรา ชลบุรี ปราจีนบุรี ระยอง สระแก้ว ตราด",
+"ใต้":"กระบี่ ชุมพร ตรัง นครศรีธรรมราช นราธิวาส ปัตตานี พังงา พัทลุง ภูเก็ต ระนอง สตูล สงขลา สุราษฎร์ธานี ยะลา"};
+Object.keys(TH).forEach(function(k){TH[k]=TH[k].split(" ")});
+var CR={"ข้าว":[15,35],"ข้าวโพด":[10,35],"มันสำปะหลัง":[15,38],"ยางพารา":[10,36],"ทุเรียน":[15,36],"ลำไย":[8,38],"ผักและผลไม้ทั่วไป":[12,35],"โคเนื้อ/โคนม":[5,30],"ไก่เนื้อ":[15,32],"ปลานิล (บ่อ)":[20,34]};
+var EF=["","ปกติดี","เครียดจากความร้อน","เครียดจากความหนาว","ขาดน้ำ/แล้ง","น้ำท่วม/น้ำขัง","โรค/แมลงระบาด"];
+var rows=[],year=new Date().getFullYear(),col=null,LK="weatherlog.v2",S={c:"",n:"",g:"",p:""},F={c:"เอเชีย",n:"ไทย",g:"กลาง",p:"กรุงเทพมหานคร",nx:""};
+function iso(x){return x.getFullYear()+"-"+String(x.getMonth()+1).padStart(2,"0")+"-"+String(x.getDate()).padStart(2,"0")}
+function fd(s){var p=s.split("-");return +p[2]+" "+M[+p[1]-1]}
+function $(i){return document.getElementById(i)}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;")}
+function fmt(n){return Math.round(n).toLocaleString("th-TH")}
+function kv(l,v){return'<div><span class="sm">'+l+'</span><br><b>'+v+'</b></div>'}
+function cagg(L){var pm={},o={n:0,hot:0,cold:0,ef:{}};
+  L.forEach(function(e){var t=CR[e.cp]||[10,35],k=pkey(e),p=pm[k]=pm[k]||{a:0,ad:"",r:0,i:0};
+    if(e.ag>0&&e.d>=p.ad){p.a=e.ag;p.ad=e.d}p.r+=e.r;p.i+=e.ir||0;
+    o.n++;if(e.hi>t[1])o.hot++;if(e.lo<t[0])o.cold++;if(e.ef)o.ef[e.ef]=(o.ef[e.ef]||0)+1});
+  var ks=Object.keys(pm);o.P=ks.length||1;o.area=0;o.vol=0;o.rain=0;o.irr=0;
+  ks.forEach(function(k){var p=pm[k];o.area+=p.a;o.vol+=(p.r+p.i)*1.6*p.a;o.rain+=p.r;o.irr+=p.i});
+  o.rain/=o.P;o.irr/=o.P;return o}
+function hash(s){var h=5381;for(var i=0;i<s.length;i++)h=((h<<5)+h+s.charCodeAt(i))>>>0;return h.toString(36)}
+function pkey(e){return(e.n||"")+"|"+(e.g||"")+"|"+(e.p||"")}
+function match(e){return LV.every(function(k){return!S[k]||e[k]===S[k]})}
+function lsLoad(){try{rows=JSON.parse(localStorage.getItem(LK)||"[]");var f=localStorage.getItem("weatherlog.loc");if(f)F=JSON.parse(f)}catch(e){rows=[]}}
+function lsSave(){try{localStorage.setItem(LK,JSON.stringify(rows))}catch(e){}}
+var PWK="weatherlog.pw",lastSig="";
+function pw(){try{return localStorage.getItem(PWK)||""}catch(e){return""}}
+async function api(path,o){o=o||{};
+  o.headers=Object.assign({},o.headers||{},{"content-type":"application/json","x-app-password":pw()});
+  var r=await fetch(path,o);
+  if(r.status===401){var p=prompt("รหัสผ่านแอป");if(p==null)throw{code:"auth"};try{localStorage.setItem(PWK,p)}catch(e){}return api(path,o)}
+  var j=await r.json().catch(function(){return{}});
+  if(!r.ok)throw{code:r.status===429?"rate_limited":"http",message:j.error};return j}
+async function loadLogs(){try{var j=await api("/api/logs"),sig=JSON.stringify(j.rows);
+  $("st").textContent="● เชื่อมฐานข้อมูลแล้ว";if(sig!==lastSig){lastSig=sig;rows=j.rows;render()}}
+  catch(e){$("st").textContent=e.code==="auth"?"ต้องใช้รหัสผ่าน":"เชื่อมฐานข้อมูลไม่ได้"}}
+function put(e){return api("/api/logs",{method:"POST",body:JSON.stringify(e)}).then(loadLogs)}
+function del(id){return api("/api/logs?id="+encodeURIComponent(id),{method:"DELETE"}).then(loadLogs)}
+async function init(){
+  lsLoad();rows=[];buildLoc();buildAg();render();
+  await loadLogs();loadTracks();setInterval(loadLogs,60000);
+}
+/* form location */
+function opt(l,sel){return l.map(function(v){return'<option'+(v===sel?" selected":"")+'>'+esc(v)+'</option>'}).join("")}
+function buildLoc(){
+  var th=F.n==="ไทย",h='<div><label for="fc">ทวีป</label><select id="fc">'+opt(Object.keys(CT),F.c)+'</select></div>'+
+  '<div><label for="fn">ประเทศ</label><select id="fn">'+opt((CT[F.c]||[]).concat([OT]),F.n)+'</select></div>';
+  if(F.n===OT)h+='<div style="grid-column:1/3"><label for="fnx">ชื่อประเทศ</label><input id="fnx" value="'+esc(F.nx||"")+'"></div>';
+  if(th)h+='<div><label for="fg">ภาค</label><select id="fg">'+opt(Object.keys(TH),F.g)+'</select></div><div><label for="fp">จังหวัด</label><select id="fp">'+opt(TH[F.g]||[],F.p)+'</select></div>';
+  else h+='<div><label for="fg">ภาค / รัฐ</label><input id="fg" value="'+esc(F.g||"")+'"></div><div><label for="fp">จังหวัด / เมือง</label><input id="fp" value="'+esc(F.p||"")+'"></div>';
+  $("loc").innerHTML=h;
+}
+function setThai(){F.g="เหนือ";F.p=TH["เหนือ"][0]}
+$("loc").onchange=function(ev){var id=ev.target.id,v=ev.target.value;
+  if(id==="fc"){F.c=v;F.n=(CT[v][0]||OT);F.g="";F.p="";if(F.n==="ไทย")setThai();buildLoc()}
+  else if(id==="fn"){F.n=v;F.g="";F.p="";if(v==="ไทย")setThai();buildLoc()}
+  else if(id==="fnx")F.nx=v;
+  else if(id==="fg"){F.g=v;if(F.n==="ไทย"){F.p=TH[v][0];buildLoc()}}
+  else if(id==="fp")F.p=v};
+function buildAg(){$("agf").innerHTML='<div><label for="cp">ชนิดพืช/สัตว์</label><select id="cp"><option value="">ไม่ระบุ</option>'+opt(Object.keys(CR),F.cp)+'</select></div><div><label for="ag">พื้นที่ (ไร่)</label><input type="number" id="ag" min="0" step="0.1" value="'+(F.ag||"")+'"></div><div><label for="ir">น้ำเสริม/ชลประทาน (มม.)</label><input type="number" id="ir" min="0" step="0.1" placeholder="0"></div><div><label for="ef">ผลที่สังเกตได้</label><select id="ef">'+EF.map(function(v){return'<option value="'+v+'">'+(v||"ไม่ระบุ")+'</option>'}).join("")+'</select></div>'}
+function xtra(){return{gt:$("gt").value===""?null:parseFloat($("gt").value),gm:$("gm").value===""?null:parseFloat($("gm").value),hu:$("hu").value===""?null:parseFloat($("hu").value),cp:$("cp").value,ag:parseFloat($("ag").value)||0,ir:parseFloat($("ir").value)||0,ef:$("ef").value}}
+/* aggregation: rain = mean per place when several places are in view */
+function agg(L){var pk={},P=0,o={tot:0,rd:0,n:L.length,sh:0,sl:0,mx:-99,mn:99,hs:0,hn:0,mo:[]};
+  for(var i=0;i<12;i++)o.mo.push({r:0,h:0,l:0,n:0});
+  L.forEach(function(e){var k=pkey(e);if(!pk[k]){pk[k]=1;P++}o.tot+=e.r;if(e.r>0)o.rd++;if(e.hu!=null){o.hs+=e.hu;o.hn++}o.sh+=e.hi;o.sl+=e.lo;if(e.hi>o.mx)o.mx=e.hi;if(e.lo<o.mn)o.mn=e.lo;
+    var m=o.mo[+e.d.slice(5,7)-1];m.r+=e.r;m.h+=e.hi;m.l+=e.lo;m.n++});
+  P=P||1;o.P=P;o.tot/=P;o.rd/=P;o.mo.forEach(function(m){m.r/=P});return o}
+function uniq(l,k){var o={};l.forEach(function(e){if(e[k])o[e[k]]=1});return Object.keys(o).sort()}
+function lst(k,base){var f=[],d=uniq(base,k),all=function(o){return[].concat.apply([],Object.keys(o).map(function(x){return o[x]}))};
+  if(k==="c")f=Object.keys(CT);
+  else if(k==="n")f=S.c?(CT[S.c]||[]).slice():all(CT);
+  else if(S.n==="ไทย")f=k==="g"?Object.keys(TH):S.g?(TH[S.g]||[]).slice():all(TH);
+  d.forEach(function(v){if(f.indexOf(v)<0)f.push(v)});return f}
+function buildScope(){var h="",base=rows,reset=false;
+  LV.forEach(function(k,i){var os=lst(k,base);if(reset||(S[k]&&os.indexOf(S[k])<0)){S[k]="";reset=true}
+    h+='<select data-k="'+k+'" aria-label="'+LN[i]+'"><option value="">ทุก'+LN[i]+'</option>'+opt(os,S[k])+'</select>';
+    if(S[k])base=base.filter(function(e){return e[k]===S[k]})});
+  $("scope").innerHTML=h}
+$("scope").onchange=function(ev){var k=ev.target.getAttribute("data-k");if(!k)return;S[k]=ev.target.value;
+  for(var i=LV.indexOf(k)+1;i<4;i++)S[LV[i]]="";$("aio").textContent="";render()};
+function render(){
+  buildScope();sky(rows.filter(match));prob();atmo();soil();aiSrc();
+  var R=rows.filter(match),ys={};R.forEach(function(e){ys[+e.d.slice(0,4)]=1});ys[new Date().getFullYear()]=1;
+  var yl=Object.keys(ys).map(Number).sort(function(a,b){return b-a});
+  if(yl.indexOf(year)<0)year=yl[0];
+  $("yrs").innerHTML=yl.map(function(y){return'<button data-y="'+y+'" class="'+(y==year?"on":"")+'">'+(y+543)+'</button>'}).join("");
+  var Y=R.filter(function(e){return+e.d.slice(0,4)===year}),a=agg(Y),n=a.n;
+  $("lbltot").textContent=a.P>1?"ฝนรวมทั้งปี · เฉลี่ยจาก "+a.P+" พื้นที่":"ฝนรวมทั้งปี";
+  $("tot").innerHTML=a.tot.toFixed(0)+"<small>มม.</small>";
+  var h=176*a.tot/Math.max(1500,a.tot),f=$("fill");f.setAttribute("height",h);f.setAttribute("y",186-h);
+  $("mini").innerHTML=n?'<div><span class="lbl">วันฝนตก'+(a.P>1?" (เฉลี่ย)":"")+'</span><br><b>'+Math.round(a.rd)+' วัน</b></div><div><span class="lbl">ร้อนสุด</span><br><b style="color:var(--hot)">'+a.mx+'°C</b></div><div><span class="lbl">เฉลี่ยกลางวัน / กลางคืน</span><br><b>'+(a.sh/n).toFixed(1)+'° / '+(a.sl/n).toFixed(1)+'°</b></div><div><span class="lbl">เย็นสุด</span><br><b style="color:var(--cold)">'+a.mn+'°C</b></div><div><span class="lbl">ความชื้นเฉลี่ย</span><br><b>'+(a.hn?Math.round(a.hs/a.hn)+"%":"–")+'</b></div><div><span class="lbl">จำนวนวันที่จด</span><br><b>'+n+' วัน</b></div>':'<div class="lbl" style="grid-column:1/3">ยังไม่มีบันทึกในพื้นที่และปีนี้ เริ่มจดได้เลย</div>';
+  var mo=a.mo,W=340,H=190,pl=24,pb=22,pt=14,cw=(W-pl-4)/12,ch=H-pb-pt;
+  var mr=Math.max.apply(null,mo.map(function(m){return m.r}).concat([100])),th=[],tl=[];
+  mo.forEach(function(m){if(m.n){th.push(m.h/m.n);tl.push(m.l/m.n)}});
+  var tmin=Math.min.apply(null,tl.concat([22]))-2,tmax=Math.max.apply(null,th.concat([32]))+2;
+  var ty=function(t){return pt+ch*(1-(t-tmin)/(tmax-tmin))},s="",up=[],dn=[];
+  [0,.5,1].forEach(function(g){var y=pt+ch*(1-g);s+='<line x1="'+pl+'" x2="'+(W-4)+'" y1="'+y+'" y2="'+y+'" stroke="var(--ln)" stroke-dasharray="'+(g?"2 4":"0")+'"/>'});
+  mo.forEach(function(m,i){var x=pl+i*cw+cw/2,bh=ch*m.r/mr;
+    if(m.r>0)s+='<path d="M'+(x-cw*.3)+','+(pt+ch)+'v'+(-Math.max(bh-4,0))+'q0,-4 4,-4h'+(cw*.6-8)+'q4,0 4,4v'+Math.max(bh-4,0)+'z" fill="var(--rain)" opacity=".85"/><text x="'+x+'" y="'+(pt+ch-bh-4)+'" font-size="7.5" fill="var(--mu)" text-anchor="middle">'+Math.round(m.r)+'</text>';
+    if(m.n){up.push([x,ty(m.h/m.n)]);dn.push([x,ty(m.l/m.n)])}
+    s+='<text x="'+x+'" y="'+(H-7)+'" font-size="8" fill="var(--mu)" text-anchor="middle">'+M[i]+'</text>'});
+  if(up.length){var P=function(q){return q.map(function(p,i){return(i?"L":"M")+p[0]+","+p[1]}).join("")};
+    s+='<path d="'+P(up)+dn.slice().reverse().map(function(p){return"L"+p[0]+","+p[1]}).join("")+'Z" fill="var(--hot)" opacity=".16"/>';
+    s+='<path d="'+P(up)+'" fill="none" stroke="var(--hot)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="'+P(dn)+'" fill="none" stroke="var(--cold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>';
+    up.forEach(function(p){s+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="2.5" fill="var(--hot)"/>'});dn.forEach(function(p){s+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="2.5" fill="var(--cold)"/>'})}
+  s+='<text x="0" y="'+(pt+3)+'" font-size="8" fill="var(--mu)">'+Math.round(tmax)+'°</text><text x="0" y="'+(pt+ch)+'" font-size="8" fill="var(--mu)">'+Math.round(tmin)+'°</text>';
+  $("chart").innerHTML=s;
+  var CY=Y.filter(function(e){return e.cp});
+  if(!CY.length)$("agb").innerHTML='<p class="empty">ยังไม่มีบันทึกที่ระบุชนิดพืช/สัตว์ เลือกในฟอร์มด้านล่างเพื่อดูผลของน้ำและอุณหภูมิ</p>';
+  else{var T=cagg(CY),w=T.rain+T.irr,GC={};CY.forEach(function(e){(GC[e.cp]=GC[e.cp]||[]).push(e)});
+    var efs=Object.keys(T.ef).map(function(k){return k+" "+T.ef[k]+" วัน"}).join(" · ");
+    $("agb").innerHTML='<div class="grid kv">'+kv("พื้นที่เกษตรรวม",fmt(T.area)+" ไร่")+kv("น้ำที่ได้รับ (ต่อแปลง)",Math.round(w)+" มม.")+kv("ปริมาตรน้ำรวม",fmt(T.vol)+" ลบ.ม.")+kv("มาจากฝน / น้ำเสริม",w>0?Math.round(100*T.rain/w)+"% / "+Math.round(100*T.irr/w)+"%":"-")+'</div>'+
+    Object.keys(GC).map(function(k){var c=cagg(GC[k]),t=CR[k]||[10,35];return'<div class="crow"><b>'+esc(k)+'</b><span class="sm">'+fmt(c.area)+' ไร่ · น้ำ '+Math.round(c.rain+c.irr)+' มม. · เกณฑ์ '+t[0]+'–'+t[1]+'°C</span><span><span class="dot" style="background:var(--hot)"></span>ร้อนเกิน '+c.hot+' วัน <span class="dot" style="background:var(--cold);margin-left:8px"></span>เย็นเกิน '+c.cold+' วัน</span></div>'}).join("")+(efs?'<p class="hint" style="margin-top:8px">ผลที่สังเกตได้: '+esc(efs)+'</p>':"")}
+  /* breakdown by next level */
+  var li=0;while(li<4&&S[LV[li]])li++;
+  var G={};if(li<4)Y.forEach(function(e){var v=e[LV[li]];if(v)(G[v]=G[v]||[]).push(e)});
+  var gk=Object.keys(G).map(function(k){return[k,agg(G[k])]}).sort(function(x,y){return y[1].tot-x[1].tot}),gm=1;gk.forEach(function(x){if(x[1].tot>gm)gm=x[1].tot});
+  $("bdw").style.display=gk.length?"":"none";$("bdt").textContent="แยกตาม"+LN[Math.min(li,3)]+" · แตะเพื่อเจาะดู";
+  $("bd").innerHTML=gk.map(function(x){return'<div class="bar go" data-lv="'+LV[li]+'" data-v="'+esc(x[0])+'"><span>'+esc(x[0])+'</span><div><i style="width:'+(100*x[1].tot/gm)+'%"></i></div><span style="text-align:right">'+x[1].tot.toFixed(0)+' มม.</span></div>'}).join("");
+  /* compare years */
+  var T={},mt=1;yl.forEach(function(y){var A=agg(R.filter(function(e){return+e.d.slice(0,4)===y}));T[y]=A;if(A.tot>mt)mt=A.tot});
+  $("cmp").innerHTML=yl.filter(function(y){return T[y].n}).map(function(y){return'<div class="bar'+(y==year?" on":"")+'"><span>'+(y+543)+'</span><div><i style="width:'+(100*T[y].tot/mt)+'%"></i></div><span style="text-align:right">'+T[y].tot.toFixed(0)+' มม.</span></div>'}).join("")||'<p class="empty">เมื่อมีหลายปี จะเห็นการเทียบกันตรงนี้</p>';
+  $("list").innerHTML=Y.slice().reverse().slice(0,30).map(function(e){var pl2=[e.p,e.g&&!e.p?e.g:"",!e.p&&!e.g?e.n:""].filter(Boolean)[0]||"ไม่ระบุพื้นที่";
+    return'<div class="row"><span>'+fd(e.d)+'<br><span class="sm">'+esc(pl2)+(e.cp?" · "+esc(e.cp):"")+'</span></span><span style="color:'+(e.r>0?"var(--rain)":"var(--mu)")+'">'+(e.r>0?e.r+" มม.":"ไม่มีฝน")+'</span><span><span class="dot" style="background:var(--hot)"></span>'+e.hi+'° <span class="dot" style="background:var(--cold);margin-left:6px"></span>'+e.lo+'°'+(e.hu!=null?' <span class="sm">· '+e.hu+'%</span>':'')+(e.gt!=null?' <span class="sm">· ดิน '+e.gt+'°</span>':'')+'</span><button class="x" data-id="'+esc(e.id||e.d)+'" aria-label="ลบ">✕</button></div>'}).join("")||'<p class="empty">ยังไม่มีบันทึก กรอกฟอร์มด้านล่างเพื่อเริ่มจด</p>';
+}
+$("yrs").onclick=function(ev){var y=ev.target.getAttribute("data-y");if(y){year=+y;render()}};
+$("bd").onclick=function(ev){var r=ev.target.closest(".go");if(r){S[r.getAttribute("data-lv")]=r.getAttribute("data-v");render()}};
+$("list").onclick=function(ev){var id=ev.target.getAttribute("data-id");if(id&&confirm("ลบบันทึกนี้?"))del(id)};
+function place(){var n=F.n===OT?($("fnx")?$("fnx").value.trim():""):F.n;return{c:F.c,n:n,g:$("fg").value.trim(),p:$("fp").value.trim()}}
+function mk(d,r,hi,lo,pl,x){x=x||{};var e={d:d,r:r,hi:hi,lo:lo,c:pl.c,n:pl.n,g:pl.g,p:pl.p,hu:x.hu==null||isNaN(x.hu)?null:x.hu,gt:x.gt==null||isNaN(x.gt)?null:x.gt,gm:x.gm==null||isNaN(x.gm)?null:x.gm,cp:x.cp||"",ag:x.ag||0,ir:x.ir||0,ef:x.ef||""};e.id=d+"_"+hash(pkey(e));return e}
+$("add").onclick=function(){
+  var d=$("d").value,r=parseFloat($("r").value)||0,hi=parseFloat($("hi").value),lo=parseFloat($("lo").value),pl=place();
+  if(!pl.n){alert("เลือกหรือพิมพ์ชื่อประเทศก่อน");return}
+  if(!d||isNaN(hi)||isNaN(lo)){alert("กรอกวันที่และอุณหภูมิสูงสุด/ต่ำสุดด้วยนะ");return}
+  var xx=xtra();F.cp=xx.cp;F.ag=xx.ag;try{localStorage.setItem("weatherlog.loc",JSON.stringify(F))}catch(e){}
+  year=+d.slice(0,4);
+  put(mk(d,r,hi,lo,pl,xx)).then(function(){["r","hi","lo","hu","gt","gm","ir","ef"].forEach(function(k){$(k).value=""})},function(){alert("บันทึกไม่สำเร็จ (อาจไม่มีสิทธิ์เขียน)")});
+};
+$("demo").onclick=async function(){
+  var t=new Date(),pl=place();if(!pl.n){alert("เลือกประเทศก่อน");return}this.disabled=true;
+  for(var i=89;i>=0;i--){var x=new Date(t);x.setDate(t.getDate()-i);
+    var wet=Math.random()<0.4,hi=30+Math.random()*6,lo=hi-5-Math.random()*3;
+    try{await put(mk(iso(x),wet?Math.round(Math.random()*400)/10:0,Math.round(hi*10)/10,Math.round(lo*10)/10,pl,Object.assign(xtra(),{hu:Math.round(wet?75+Math.random()*20:50+Math.random()*25),gt:Math.round((wet?hi-1+Math.random()*3:hi+3+Math.random()*7)*10)/10,gm:Math.round(wet?55+Math.random()*30:20+Math.random()*25)})))}catch(e){alert("เขียนข้อมูลไม่ได้");break}}
+  this.disabled=false;
+};
+var AI=null;
+AI=function(p){return api("/api/ai",{method:"POST",body:JSON.stringify({prompt:p})}).then(function(j){return{text:j.text}})};
+AI.json=function(p){return AI(p+"\n\nตอบเป็น JSON อย่างเดียว ห้ามมีข้อความอื่นหรือ code fence").then(function(r){var t=r.text,i=t.indexOf("{"),j=t.lastIndexOf("}");return JSON.parse(t.slice(i,j+1))})};
+$("aiq").style.display="";$("aiall").style.display="";
+function aiErr(e){return e&&e.code==="not_granted"?"ยังไม่ได้อนุญาตให้ใช้ AI":e&&e.code==="rate_limited"?"ใช้ถี่เกินไป รอสักครู่แล้วลองใหม่":"AI ตอบไม่สำเร็จ ลองใหม่อีกครั้ง"}
+$("qb").onclick=async function(){
+  var t=$("qt").value.trim();if(!t||!AI)return;var b=this;b.disabled=true;$("qm").textContent="กำลังแยกข้อมูล…";
+  var q='วันนี้คือ '+iso(new Date())+'. แยกข้อความต่อไปนี้เป็น JSON เท่านั้น: {"d":"YYYY-MM-DD","r":ฝนมม. (ไม่มีให้ 0),"hi":อุณหภูมิสูงสุด°C,"lo":อุณหภูมิต่ำสุด°C,"c":ทวีป,"n":ประเทศ,"g":ภาคหรือรัฐ,"p":จังหวัดหรือเมือง,"cp":ชนิดพืชหรือสัตว์,"ag":พื้นที่เกษตรเป็นไร่,"ir":น้ำเสริมมม.,"ef":ผลที่สังเกตได้,"hu":ความชื้นสัมพัทธ์เป็นเปอร์เซ็นต์,"gt":อุณหภูมิผิวดิน°C,"gm":ความชื้นดินเป็นเปอร์เซ็นต์}. ทวีปเลือกจาก: '+Object.keys(CT).join(", ")+'. ชื่อประเทศ ภาค จังหวัด เขียนเป็นภาษาไทย. ถ้าเป็นไทย ภาคเลือกจาก: '+Object.keys(TH).join(", ")+' และสะกดจังหวัดตามชื่อทางการ. ชนิดพืชหรือสัตว์เลือกจาก: '+Object.keys(CR).join(", ")+'. ผลที่สังเกตได้เลือกจาก: '+EF.slice(1).join(", ")+'. ข้อมูลที่ไม่มีใช้ null. ข้อความ: '+t;
+  try{
+    var o=await AI.json(q),k,miss=[];
+    if(o.p)for(k in TH)if(TH[k].indexOf(o.p)>=0){o.n="ไทย";o.g=k}
+    if(o.n)for(k in CT)if(CT[k].indexOf(o.n)>=0)o.c=k;
+    if(o.c&&CT[o.c]){F.c=o.c}
+    if(o.n){if((CT[F.c]||[]).indexOf(o.n)>=0){F.n=o.n}else{F.n=OT;F.nx=o.n}}
+    else miss.push("ประเทศ");
+    if(F.n==="ไทย"){if(o.g&&TH[o.g]){F.g=o.g;F.p=TH[o.g].indexOf(o.p)>=0?o.p:TH[o.g][0];if(TH[o.g].indexOf(o.p)<0)miss.push("จังหวัด")}else{setThai();miss.push("ภาค/จังหวัด")}}
+    else{F.g=o.g||"";F.p=o.p||""}
+    buildLoc();
+    if(/^\d{4}-\d{2}-\d{2}$/.test(o.d||""))$("d").value=o.d;
+    $("r").value=o.r==null?0:o.r;
+    if(o.hi!=null)$("hi").value=o.hi;else miss.push("อุณหภูมิสูงสุด");
+    if(o.lo!=null)$("lo").value=o.lo;else miss.push("อุณหภูมิต่ำสุด");
+    if(o.cp&&CR[o.cp])$("cp").value=o.cp;if(o.ag>0)$("ag").value=o.ag;if(o.ir>0)$("ir").value=o.ir;if(o.ef&&EF.indexOf(o.ef)>=0)$("ef").value=o.ef;if(o.hu>0&&o.hu<=100)$("hu").value=o.hu;if(o.gt!=null)$("gt").value=o.gt;if(o.gm>0&&o.gm<=100)$("gm").value=o.gm;
+    $("qm").textContent="แยกให้แล้ว ตรวจในฟอร์มด้านล่างแล้วกดบันทึก"+(miss.length?" (ไม่พบ: "+miss.join(", ")+")":"");
+  }catch(e){$("qm").textContent=aiErr(e)}
+  b.disabled=false;
+};
+/* theme + living sky */
+var TK="weatherlog.theme",night=false,RM=window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches;
+try{var tv=localStorage.getItem(TK);night=tv?tv==="night":(window.matchMedia&&matchMedia("(prefers-color-scheme:dark)").matches)}catch(e){}
+function applyTheme(){document.documentElement.setAttribute("data-theme",night?"dark":"light");$("tm").textContent=night?"☀️":"🌙";$("tm").setAttribute("aria-label",night?"เปลี่ยนเป็นกลางวัน":"เปลี่ยนเป็นกลางคืน")}
+$("tm").onclick=function(){night=!night;try{localStorage.setItem(TK,night?"night":"day")}catch(e){}applyTheme()};
+applyTheme();
+(function(){var h="";for(var i=0;i<70;i++){var z=1+Math.random()*2;h+='<i style="left:'+(Math.random()*100)+'%;top:'+(Math.random()*70)+'%;width:'+z+'px;height:'+z+'px;animation-delay:'+(Math.random()*4)+'s;animation-duration:'+(2+Math.random()*3)+'s"></i>'}$("stars").innerHTML=h})();
+var cv=$("cv"),cx=cv.getContext("2d"),drops=[],inten=0,raf=0,flt=0;
+function fit(){var d=Math.min(window.devicePixelRatio||1,2);cv.width=innerWidth*d;cv.height=innerHeight*d;cx.setTransform(d,0,0,d,0,0)}
+function nd(r){return{x:Math.random()*innerWidth,y:r?Math.random()*innerHeight:-20,l:10+Math.random()*14,v:9+Math.random()*7+inten*6}}
+function tick(){if(!inten){raf=0;cx.clearRect(0,0,innerWidth,innerHeight);return}
+  cx.clearRect(0,0,innerWidth,innerHeight);cx.strokeStyle=night?"rgba(170,200,255,.5)":"rgba(70,120,200,.45)";cx.lineWidth=1.2;cx.beginPath();
+  drops.forEach(function(d){cx.moveTo(d.x,d.y);cx.lineTo(d.x-d.l*.18,d.y+d.l);d.y+=d.v;d.x-=d.v*.18;if(d.y>innerHeight){d.y=-20;d.x=Math.random()*innerWidth+40}});
+  cx.stroke();raf=requestAnimationFrame(tick)}
+function setRain(i){inten=i;var n=RM?0:Math.round(i*170);while(drops.length<n)drops.push(nd(true));drops.length=n;
+  if(n&&!raf)raf=requestAnimationFrame(tick);if(!n)cx.clearRect(0,0,innerWidth,innerHeight)}
+function lightning(on){clearInterval(flt);flt=0;if(on&&!RM)flt=setInterval(function(){if(Math.random()<.5){var s=$("sky");s.classList.add("fl");setTimeout(function(){s.classList.remove("fl")},220)}},7000)}
+function sky(R){var L=null;R.forEach(function(e){if(!L||e.d>L.d)L=e});
+  var i=0,t="ยังไม่มีบันทึก ท้องฟ้าจึงแจ่มใส";
+  if(L){var r=L.r;i=r<=0?0:r<5?.25:r<20?.5:r<50?.8:1;
+    var lb=r<=0?"ไม่มีฝน":r<5?"ฝนเล็กน้อย":r<20?"ฝนปานกลาง":r<50?"ฝนหนัก":"ฝนหนักมาก";
+    t="ท้องฟ้าตามบันทึกล่าสุด ("+fd(L.d)+"): "+lb+(L.hi>=36?" · ร้อนจัด":"")+(L.lo<=15?" · เย็นจัด":"")}
+  $("wx").textContent=t;$("orb").classList.toggle("hot",!!(L&&L.hi>=36));$("orb").classList.toggle("dim",i>=.5);$("sky").classList.toggle("wet",i>0);
+  setRain(i);lightning(i>=.8)}
+addEventListener("resize",fit);fit();
+/* rain probability from similar temperatures */
+var pdirty=false;
+function med(a){a=a.slice().sort(function(x,y){return x-y});var n=a.length;return n?(n%2?a[(n-1)/2]:(a[n/2-1]+a[n/2])/2):null}
+var PR=null;
+function prob(){
+  PR=null;var R=rows.filter(match),m=$("pm").value,out=$("pro");
+  if(m!=="")R=R.filter(function(e){return+e.d.slice(5,7)-1===+m});
+  if(!pdirty){var mh=med(R.map(function(e){return e.hi})),ml=med(R.map(function(e){return e.lo}));
+    $("ph").value=mh==null?"":mh.toFixed(1);$("pl").value=ml==null?"":ml.toFixed(1)}
+  if(!R.length){out.innerHTML='<p class="empty">ยังไม่มีข้อมูลในพื้นที่/เดือนนี้ให้คำนวณ</p>';return}
+  var h=parseFloat($("ph").value),l=parseFloat($("pl").value),u=parseFloat($("pu").value);
+  if(isNaN(h)||isNaN(l)){out.innerHTML='<p class="empty">ใส่อุณหภูมิสูงสุดและต่ำสุดเพื่อดูโอกาสฝน</p>';return}
+  var tol=1.5,A=[],f=function(e){return Math.abs(e.hi-h)<=tol&&Math.abs(e.lo-l)<=tol&&(isNaN(u)||(e.hu!=null&&Math.abs(e.hu-u)<=10))};
+  A=R.filter(f);while(A.length<15&&tol<4){tol+=0.5;A=R.filter(f)}
+  if(!A.length){out.innerHTML='<p class="empty">ไม่พบวันที่อุณหภูมิใกล้เคียง (±4°C) ลองปรับค่า หรือเลือก "ทุกเดือน"</p>';return}
+  var n=A.length,B=[0,0,0,0,0],sum=0,wet=0,mx=0;
+  A.forEach(function(e){var r=e.r,i=r<=0?0:r<5?1:r<20?2:r<50?3:4;B[i]++;sum+=r;if(r>0)wet++;if(r>mx)mx=r});
+  var base=Math.round(100*R.filter(function(e){return e.r>0}).length/R.length),pw=Math.round(100*wet/n);
+  var L=["ไม่มีฝน","เล็กน้อย","ปานกลาง","หนัก","หนักมาก"],top=B.indexOf(Math.max.apply(null,B));
+  var cf=n<10?"ตัวอย่างน้อยมาก ใช้ประกอบเท่านั้น":n<30?"ตัวอย่างค่อนข้างน้อย":"ตัวอย่างพอใช้";
+  PR={อุณหภูมิสูงสุด:h,อุณหภูมิต่ำสุด:l,ความชื้น:isNaN(u)?null:u,เดือน:m===""?"ทุกเดือน":M[+m],จำนวนวันใกล้เคียง:n,ช่วงอุณหภูมิ_บวกลบ:tol,โอกาสฝน_เปอร์เซ็นต์:pw,โอกาสฝนทั้งช่วงข้อมูล_เปอร์เซ็นต์:base,ฝนเฉลี่ย_มม:+(sum/n).toFixed(1),ฝนสูงสุด_มม:mx,สัดส่วนระดับ_เปอร์เซ็นต์:{}};B.forEach(function(c,i){PR.สัดส่วนระดับ_เปอร์เซ็นต์[L[i]]=Math.round(100*c/n)});
+  out.innerHTML='<div class="grid kv">'+kv("โอกาสมีฝน",'<span style="color:var(--rain)">'+pw+'%</span> <span class="sm">(ทั้งช่วง '+base+'%)</span>')+kv("ฝนเฉลี่ย/วัน",(sum/n).toFixed(1)+" มม.")+kv("ถ้าฝนตก เฉลี่ย",wet?(sum/wet).toFixed(1)+" มม.":"-")+kv("ฝนสูงสุดที่เคยเจอ",mx+" มม.")+'</div>'+
+  B.map(function(c,i){return'<div class="bar'+(i===top?" on":"")+'"><span>'+L[i]+'</span><div><i style="width:'+(100*c/n)+'%"></i></div><span style="text-align:right">'+Math.round(100*c/n)+'%</span></div>'}).join("")+
+  '<p class="hint" style="margin-top:6px">เล็กน้อย &lt;5 · ปานกลาง 5–20 · หนัก 20–50 · หนักมาก 50+ มม./วัน<br>จาก '+n+' วันที่ใกล้เคียง ('+h+'°/'+l+'° ±'+tol+'°C'+(isNaN(u)?"":", ความชื้น "+u+"% ±10")+') · '+cf+'</p>';
+}
+$("ph").oninput=$("pl").oninput=function(){pdirty=true;prob()};
+$("pm").onchange=prob;$("pu").oninput=prob;
+$("pmid").onclick=function(){pdirty=false;prob()};
+/* atmosphere layers */
+var ZN={trop:16,mid:11,pol:8},ATM=null;
+function atmo(){
+  var R=rows.filter(match),Ts=null,RH=null,out=$("atb");
+  if($("asrc").value==="latest"){var L=null;R.forEach(function(e){if(!L||e.d>L.d)L=e});if(L){Ts=(L.hi+L.lo)/2;RH=L.hu}}
+  else{var a=agg(R.filter(function(e){return+e.d.slice(0,4)===year}));if(a.n){Ts=(a.sh+a.sl)/(2*a.n);RH=a.hn?a.hs/a.hn:null}}
+  if(Ts==null){ATM=null;out.innerHTML='<p class="empty">ยังไม่มีข้อมูลในพื้นที่/ปีนี้ให้ประเมิน</p>';return}
+  var Ht=ZN[$("azn").value],Td=null,lk=0,hasL=RH!=null&&RH>0;
+  if(hasL){var g=Math.log(RH/100)+17.62*Ts/(243.12+Ts);Td=243.12*g/(17.62-g);lk=Math.min(Math.max(0,0.125*(Ts-Td)),Ht)}
+  var T=function(z){return z<=lk?Ts-(hasL?9.8:6.5)*z:Ts-(hasL?9.8:6.5)*lk-6.5*(z-lk)};
+  var z0=Ts<=0?0:T(lk)>=0?lk+T(lk)/6.5:Ts/9.8;z0=Math.min(z0,Ht);var Tt=T(Ht);
+  ATM={Ts:+Ts.toFixed(1),RH:RH==null?null:Math.round(RH),Td:Td==null?null:+Td.toFixed(1),lcl_km:hasL?+lk.toFixed(2):null,freeze_km:+z0.toFixed(1),tropopause_km:Ht,tropopause_C:Math.round(Tt)};
+  var B=[["เอกโซสเฟียร์",10,50,"#8a7cf0","600+ กม."],["เทอร์โมสเฟียร์",50,95,"#e8801c","85–600 กม."],["มีโซสเฟียร์",95,140,"#2fa8c0","50–85 กม."],["สตราโทสเฟียร์",140,190,"#7cc46a","'+Ht+'–50 กม."],["โทรโพสเฟียร์",190,280,"#2a6fdb","0–"+Ht+" กม."]],s="";
+  B[3][4]=Ht+"–50 กม.";
+  var TX=["~–","+500 ถึง +2,000°C","ถึง ~–90°C","~–56 → ~0°C",Math.round(Ts)+"° → "+Math.round(Tt)+"°C"];
+  B.forEach(function(b,i){s+='<rect x="100" y="'+b[1]+'" width="232" height="'+(b[2]-b[1])+'" fill="'+b[3]+'" opacity="'+(i===4?".38":".2")+'"/><text x="6" y="'+((b[1]+b[2])/2+3)+'" font-size="10.5" fill="var(--tx)" font-weight="500">'+b[0]+'</text><text x="106" y="'+(b[1]+12)+'" font-size="8.5" fill="var(--mu)">'+b[4]+'</text>'+(i<4?'<text x="326" y="'+((b[1]+b[2])/2+3)+'" font-size="9" fill="var(--tx)" text-anchor="end">'+(i===0?"บางเบาที่สุด":TX[i])+'</text>':'')});
+  var yL=280-90*lk/Ht,yF=280-90*z0/Ht;
+  s+='<text x="326" y="270" font-size="9" fill="var(--tx)" text-anchor="end" font-weight="500">'+TX[4]+'</text>';
+  if(hasL)s+='<line x1="100" x2="332" y1="'+yL+'" y2="'+yL+'" stroke="var(--rain)" stroke-dasharray="3 3"/><text x="106" y="'+(yL-3)+'" font-size="8.5" fill="var(--rain)">ฐานเมฆ ~'+lk.toFixed(1)+' กม.</text>';
+  if(Ts>0)s+='<line x1="100" x2="332" y1="'+yF+'" y2="'+yF+'" stroke="var(--cold)" stroke-dasharray="3 3"/><text x="106" y="'+(yF-3)+'" font-size="8.5" fill="var(--cold)">เยือกแข็ง 0°C ~'+z0.toFixed(1)+' กม.</text>';
+  var rw=function(n,alt,t,tag,mine){return'<div class="crow"><b>'+n+'</b> <span class="pill">'+tag+'</span><span class="sm">'+alt+' · '+t+'</span></div>'};
+  out.innerHTML='<p class="hint">ใช้ค่า: อุณหภูมิ '+ATM.Ts+'°C'+(RH!=null?' · ความชื้น '+ATM.RH+'% · จุดน้ำค้าง '+ATM.Td+'°C':' · ไม่มีข้อมูลความชื้น (ใช้อัตราลดตามมาตรฐาน ไม่มีฐานเมฆ)')+'</p><svg viewBox="0 0 340 290" role="img" aria-label="ชั้นบรรยากาศ">'+s+'</svg>'+
+  rw("โทรโพสเฟียร์","0–"+Ht+" กม.","เย็นลงตามความสูง จาก "+Math.round(Ts)+"° เหลือราว "+Math.round(Tt)+"°C · มีเมฆและฝน · มีมวลอากาศราว 80%","คำนวณจากข้อมูลคุณ")+
+  rw("สตราโทสเฟียร์",Ht+"–50 กม.","ราว –56°C คงที่ แล้วอุ่นขึ้นถึง ~0°C ที่ 50 กม. เพราะโอโซนดูดรังสี UV","ค่าอ้างอิง")+
+  rw("มีโซสเฟียร์","50–85 กม.","เย็นลงถึง ~–90°C · อุกกาบาตเผาไหม้ที่ชั้นนี้","ค่าอ้างอิง")+
+  rw("เทอร์โมสเฟียร์","85–~600 กม.","อุณหภูมิ 500–2,000°C ตามกิจกรรมดวงอาทิตย์ แต่อากาศเบาบางมากจนไม่รู้สึกร้อน · เกิดแสงออโรรา","ค่าอ้างอิง")+
+  rw("เอกโซสเฟียร์","~600–10,000 กม.","โมเลกุลเบาบางจนหลุดสู่อวกาศได้","ค่าอ้างอิง");
+}
+$("asrc").onchange=$("azn").onchange=function(){$("aio").textContent="";atmo()};
+/* one AI box: sends the computed results shown on the page */
+function gather(){
+  var R=rows.filter(match),Y=R.filter(function(e){return+e.d.slice(0,4)===year}),a=agg(Y);
+  if(!a.n)return null;
+  var d={พื้นที่:LV.map(function(k){return S[k]}).filter(Boolean).join(" > ")||"ทุกพื้นที่",ปี:year+543,
+    ภาพรวม:{จำนวนวันที่บันทึก:a.n,จำนวนพื้นที่:a.P,ฝนรวมเฉลี่ยต่อพื้นที่_มม:Math.round(a.tot),วันฝนตกเฉลี่ย:Math.round(a.rd),ร้อนสุด:a.mx,เย็นสุด:a.mn,สูงสุดเฉลี่ย:+(a.sh/a.n).toFixed(1),ต่ำสุดเฉลี่ย:+(a.sl/a.n).toFixed(1),ความชื้นเฉลี่ย:a.hn?Math.round(a.hs/a.hn):null},
+    รายเดือน:a.mo.map(function(m,i){return m.n?{เดือน:M[i],ฝน_มม:Math.round(m.r),สูงสุดเฉลี่ย:+(m.h/m.n).toFixed(1),ต่ำสุดเฉลี่ย:+(m.l/m.n).toFixed(1)}:null}).filter(Boolean)};
+  var yrs={};R.forEach(function(e){yrs[+e.d.slice(0,4)+543]=1});Object.keys(yrs).forEach(function(y){yrs[y]=Math.round(agg(R.filter(function(e){return+e.d.slice(0,4)+543==y})).tot)});d.ฝนรวมแต่ละปี_มม=yrs;
+  var li=0;while(li<4&&S[LV[li]])li++;
+  if(li<4){var G={};Y.forEach(function(e){var v=e[LV[li]];if(v)(G[v]=G[v]||[]).push(e)});
+    var gl=Object.keys(G).map(function(k){return{ชื่อ:k,ฝนเฉลี่ย_มม:Math.round(agg(G[k]).tot)}}).sort(function(x,y){return y.ฝนเฉลี่ย_มม-x.ฝนเฉลี่ย_มม}).slice(0,12);
+    if(gl.length)d["แยกตาม"+LN[li]]=gl}
+  var CY=Y.filter(function(e){return e.cp});
+  if(CY.length){var GC={};CY.forEach(function(e){(GC[e.cp]=GC[e.cp]||[]).push(e)});
+    d.เกษตรและสิ่งมีชีวิต=Object.keys(GC).map(function(k){var c=cagg(GC[k]);return{ชนิด:k,เกณฑ์อุณหภูมิ_ต่ำ_สูง:CR[k]||[10,35],พื้นที่_ไร่:Math.round(c.area),ฝนเฉลี่ย_มม:Math.round(c.rain),น้ำเสริมเฉลี่ย_มม:Math.round(c.irr),ปริมาตรน้ำ_ลบม:Math.round(c.vol),วันร้อนเกินเกณฑ์:c.hot,วันเย็นเกินเกณฑ์:c.cold,ผลที่สังเกตได้:c.ef}})}
+  if(SO)d.ผิวดินและความชื้นดิน=SO;
+  if(PR)d.โอกาสฝนจากอุณหภูมิ=PR;
+  if(ATM)d.ชั้นบรรยากาศ_โทรโพสเฟียร์_ที่คำนวณ=ATM;
+  var L=null;R.forEach(function(e){if(!L||e.d>L.d)L=e});
+  if(L)d.บันทึกล่าสุด={วันที่:L.d,ฝน_มม:L.r,สูงสุด:L.hi,ต่ำสุด:L.lo,ความชื้น:L.hu};
+  return d}
+function aiSrc(){var R=rows.filter(match),Y=R.filter(function(e){return+e.d.slice(0,4)===year}),ok=function(b){return b?"✓":"–"};
+  $("aisrc").textContent="ข้อมูลที่ AI ใช้: สถิติรายปี/รายเดือน/เทียบปี "+ok(Y.length)+" · เกษตร "+ok(Y.some(function(e){return e.cp}))+" · โอกาสฝน "+ok(PR)+" · ชั้นบรรยากาศ "+ok(ATM)+" · ผิวดิน "+ok(SO)}
+$("aib").onclick=async function(){
+  if(!AI)return;var d=gather();if(!d){$("aio").textContent="ยังไม่มีบันทึกในพื้นที่และปีนี้ให้วิเคราะห์";return}
+  this.disabled=true;$("aio").textContent="กำลังวิเคราะห์…";
+  try{var r=await AI("คุณคือนักวิเคราะห์ภูมิอากาศ ด้านล่างคือผลคำนวณทั้งหมดที่แอปแสดงอยู่ (JSON) เขียนรายงานภาษาไทยสั้นกระชับ แบ่ง 5 หัวข้อ ขึ้นต้นแต่ละหัวข้อด้วยชื่อแล้วตามด้วยเนื้อหา 1-3 ประโยค: 1) ภาพรวมอากาศและฝน 2) แนวโน้มรายเดือนและรายปี 3) เกษตรและสิ่งมีชีวิต (ข้ามถ้าไม่มีข้อมูล) 4) ผิวดิน/ความชื้นดิน (ถ้ามีข้อมูล) ว่าสัมพันธ์กับอุณหภูมิอากาศ ความชื้น และฝนอย่างไร พร้อมโอกาสฝนและชั้นบรรยากาศ (โทรโพสเฟียร์มาจากข้อมูล ชั้นบนเป็นค่าอ้างอิง) 5) ข้อแนะนำ 3 ข้อ และข้อจำกัดของข้อมูล เช่น จำนวนวันที่น้อย ความสัมพันธ์ไม่ใช่เหตุและผล กฎ: ห้ามแต่งตัวเลขที่ไม่มีใน JSON ไม่ใช้ markdown ให้ขึ้นบรรทัดใหม่ระหว่างหัวข้อ\n"+JSON.stringify(d));$("aio").textContent=r.text}
+  catch(e){$("aio").textContent=aiErr(e)}
+  this.disabled=false};
+/* soil */
+var SO=null;
+function corr(x,y){var n=x.length;if(n<8)return null;var mx=0,my=0,i,a=0,b=0,c=0;for(i=0;i<n;i++){mx+=x[i];my+=y[i]}mx/=n;my/=n;
+  for(i=0;i<n;i++){a+=(x[i]-mx)*(y[i]-my);b+=(x[i]-mx)*(x[i]-mx);c+=(y[i]-my)*(y[i]-my)}return b&&c?+(a/Math.sqrt(b*c)).toFixed(2):null}
+function av(L,f){return L.length?L.reduce(function(s,e){return s+f(e)},0)/L.length:null}
+function soil(){
+  var Y=rows.filter(match).filter(function(e){return+e.d.slice(0,4)===year}),G=Y.filter(function(e){return e.gt!=null}),Mo=Y.filter(function(e){return e.gm!=null}),out=$("soilb");SO=null;
+  if(!G.length&&!Mo.length){out.innerHTML='<p class="empty">ยังไม่มีบันทึกอุณหภูมิผิวดินหรือความชื้นดิน ใส่ได้ในฟอร์มด้านล่าง</p>';return}
+  var wt=G.filter(function(e){return e.r>0}),dt=G.filter(function(e){return e.r<=0}),wm=Mo.filter(function(e){return e.r>0}),dm=Mo.filter(function(e){return e.r<=0});
+  var gt=function(e){return e.gt},gm=function(e){return e.gm},ok=function(a,b){return a.length>=3&&b.length>=3};
+  var gAv=av(G,gt),aAv=av(G,function(e){return(e.hi+e.lo)/2});
+  SO={จำนวนวันที่มีอุณหภูมิผิวดิน:G.length,จำนวนวันที่มีความชื้นดิน:Mo.length,
+    ผิวดินเฉลี่ย_C:gAv==null?null:+gAv.toFixed(1),ผิวดินต่างจากอากาศเฉลี่ย_C:gAv==null?null:+(gAv-aAv).toFixed(1),ความชื้นดินเฉลี่ย_เปอร์เซ็นต์:Mo.length?Math.round(av(Mo,gm)):null,
+    ผิวดินเฉลี่ยวันฝนตก_C:ok(wt,dt)?+av(wt,gt).toFixed(1):null,ผิวดินเฉลี่ยวันไม่มีฝน_C:ok(wt,dt)?+av(dt,gt).toFixed(1):null,
+    ความชื้นดินวันฝนตก_เปอร์เซ็นต์:ok(wm,dm)?Math.round(av(wm,gm)):null,ความชื้นดินวันไม่มีฝน_เปอร์เซ็นต์:ok(wm,dm)?Math.round(av(dm,gm)):null,
+    สหสัมพันธ์_ผิวดิน_กับ_อุณหภูมิสูงสุดอากาศ:corr(G.map(gt),G.map(function(e){return e.hi})),
+    สหสัมพันธ์_ผิวดิน_กับ_ความชื้นอากาศ:corr(G.filter(function(e){return e.hu!=null}).map(gt),G.filter(function(e){return e.hu!=null}).map(function(e){return e.hu})),
+    สหสัมพันธ์_ความชื้นดิน_กับ_ฝน:corr(Mo.map(gm),Mo.map(function(e){return e.r}))};
+  var u=function(v,s){return v==null?"–":v+s};
+  out.innerHTML='<div class="grid kv">'+kv("ผิวดินเฉลี่ย",u(SO.ผิวดินเฉลี่ย_C,"°C"))+kv("ผิวดินต่างจากอากาศ",SO.ผิวดินต่างจากอากาศเฉลี่ย_C==null?"–":(SO.ผิวดินต่างจากอากาศเฉลี่ย_C>0?"+":"")+SO.ผิวดินต่างจากอากาศเฉลี่ย_C+"°C")+kv("ความชื้นดินเฉลี่ย",u(SO.ความชื้นดินเฉลี่ย_เปอร์เซ็นต์,"%"))+
+    kv("ผิวดิน ฝนตก / ไม่ตก",SO.ผิวดินเฉลี่ยวันฝนตก_C==null?"–":SO.ผิวดินเฉลี่ยวันฝนตก_C+"° / "+SO.ผิวดินเฉลี่ยวันไม่มีฝน_C+"°")+
+    kv("ความชื้นดิน ฝนตก / ไม่ตก",SO.ความชื้นดินวันฝนตก_เปอร์เซ็นต์==null?"–":SO.ความชื้นดินวันฝนตก_เปอร์เซ็นต์+"% / "+SO.ความชื้นดินวันไม่มีฝน_เปอร์เซ็นต์+"%")+
+    kv("ผิวดิน–อุณหภูมิอากาศ (r)",u(SO.สหสัมพันธ์_ผิวดิน_กับ_อุณหภูมิสูงสุดอากาศ,""))+'</div><p class="hint">r ใกล้ 1 = ขึ้นลงไปด้วยกัน ต้องมีอย่างน้อย 8 วัน เป็นความสัมพันธ์ ไม่ใช่เหตุและผล (เช่น ฝนตกทำให้ดินชื้นและเย็นลงในวันเดียวกัน)</p>'}
+/* auto-tracking (calls the Vercel API) */
+var TC=[];
+$("tf").onclick=async function(){var q=$("tq").value.trim()||F.p||F.g||(F.n===OT?F.nx:F.n);if(!q)return;
+  $("tc").innerHTML='<p class="hint">กำลังค้นหา…</p>';
+  try{var j=await api("/api/geocode?q="+encodeURIComponent(q));TC=j.results||[];
+    $("tc").innerHTML=TC.length?'<label for="ts" style="margin-top:8px">เลือกพิกัด</label><select id="ts">'+TC.map(function(r,i){return'<option value="'+i+'">'+esc(r.name+" · "+(r.admin1||"")+" · "+r.country+" ("+r.latitude.toFixed(2)+", "+r.longitude.toFixed(2)+")")+'</option>'}).join("")+'</select><button id="ta">เพิ่มการติดตาม</button>':'<p class="hint">ไม่พบพิกัด ลองชื่ออื่นหรือภาษาอังกฤษ</p>'}
+  catch(e){$("tc").innerHTML='<p class="hint">ค้นหาไม่สำเร็จ</p>'}};
+$("tc").onclick=async function(ev){if(ev.target.id!=="ta")return;var r=TC[+$("ts").value],pl=place();
+  if(!pl.n){alert("เลือกประเทศในฟอร์มด้านบนก่อน");return}
+  try{await api("/api/tracks",{method:"POST",body:JSON.stringify({c:pl.c,n:pl.n,g:pl.g,p:pl.p,label:r.name,lat:r.latitude,lon:r.longitude,interval_hours:+$("tv").value})});$("tc").innerHTML="";$("tq").value="";loadTracks()}
+  catch(e){alert("เพิ่มไม่สำเร็จ")}};
+async function loadTracks(){try{var j=await api("/api/tracks");
+  $("tl").innerHTML=j.rows.map(function(t){return'<div class="crow"><b>'+esc(t.label)+'</b> <span class="pill">ทุก '+t.interval_hours+' ชม.</span><span class="sm">'+esc([t.c,t.n,t.g,t.p].filter(Boolean).join(" › "))+' · ดึงล่าสุด '+(t.last_run?new Date(t.last_run).toLocaleString("th-TH"):"ยังไม่เคย")+'</span><button class="ghost" data-pull="'+t.id+'" style="width:auto;display:inline-block;padding:4px 12px;margin:4px 6px 0 0">ดึงตอนนี้</button><button class="ghost" data-rm="'+t.id+'" style="width:auto;display:inline-block;padding:4px 12px;margin:4px 0 0">ลบ</button></div>'}).join("")||'<p class="empty">ยังไม่มีการติดตาม</p>'}catch(e){}}
+$("tl").onclick=async function(ev){var p=ev.target.getAttribute("data-pull"),r=ev.target.getAttribute("data-rm");
+  try{if(p){ev.target.disabled=true;await api("/api/cron?id="+p);await loadLogs();loadTracks()}
+    else if(r&&confirm("ลบการติดตามนี้?")){await api("/api/tracks?id="+r,{method:"DELETE"});loadTracks()}}
+  catch(e){alert("ทำไม่สำเร็จ")}};
+$("d").value=iso(new Date());
+init();
+</script>
+</body>
+</html>
